@@ -1,0 +1,23 @@
+.imgBankPage{
+  //background-color: blue;
+
+  .sect-title{
+    font-family: 'Dosis', 'Arial';
+    font-size: 36px;
+    border-left: 5px solid black;
+    span{
+      display: inline-block;
+      padding: 0 3px;
+      margin-left: 5px;
+    }
+  }
+
+  .upload-area{
+    padding: 25px 0;
+  }
+
+  .img-selection{
+    padding: 20px 0;
+  }
+
+}

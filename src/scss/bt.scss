@@ -1,0 +1,15 @@
+
+.button-container{
+  width: 50px;
+  background-color: red;
+
+}
+.button-box{
+  box-sizing: border-box;
+  border: 1px solid black;
+
+  > .button-label{
+    background-color: green;
+    display: inline-block;
+  }
+}

@@ -1,0 +1,54 @@
+.fileUpload{
+  display: inline-block;
+  padding: 5px;
+
+  font-family: 'Dosis';
+
+  .file-input-container{
+    height: 0;
+    width: 0;
+    visibility: hidden;
+    overflow: hidden;
+
+    .file-input{
+      border: 1px solid blue;
+    }
+  }
+
+  .file-selector, .selected-file, .upload-button-container{
+    display: inline-block;
+    padding: 3px 5px;
+    margin-right: 15px;
+  }
+
+  .file-selector{
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+
+  .upload-button-container{
+    //padding: 15px 0;
+  }
+  .upload-button{
+    font-family: "Dosis";
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    background-color: red;
+
+    padding: 0px 3px;
+    margin: 0;
+
+    overflow: hidden;
+    outline: none;
+    box-sizing: border-box;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    border: none;
+    cursor: pointer;
+  }
+}

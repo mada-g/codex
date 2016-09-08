@@ -1,0 +1,103 @@
+.textbox{
+//  border-top: 1px solid grey;
+  //border-bottom: 1px solid grey;
+    //background-color: lightgrey;
+
+  .box{
+    position: relative;
+
+    pre, textarea{
+      margin: 0;
+      padding: 10px;
+      outline: 0;
+      border: 0;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      background: transparent;
+
+      font-size: 18px;
+      font-family: 'Dosis', 'arial';
+      line-height: 1.5;
+    }
+
+    textarea{
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top:0;
+      left:0;
+
+      resize: none;
+      overflow: hidden;
+      outline: none;
+      box-sizing: border-box;
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
+    }
+
+    pre{
+      display: block;
+      visibility: hidden;
+    }
+
+    &.h1{
+      pre, textarea{
+        font-size: 38px;
+        font-weight: bold;
+      }
+    }
+
+    &.h2{
+      pre, textarea{
+        font-size: 25px;
+        font-weight: bold;
+      }
+    }
+
+    &.h0{
+      pre, textarea{
+        font-size: 45px;
+        font-weight: bold;
+      }
+    }
+
+    &.t0{
+      pre, textarea{ font-size: 18px; }
+    }
+  }
+
+}
+
+
+.textbox-area{
+  display: block;
+
+  margin: 0;
+  padding: 10px;
+  outline: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  //border: 1px solid black;
+  box-sizing: border-box;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+
+  font-family: "Dosis", "Arial";
+
+  &.alignleft {text-align: left;}
+  &.aligncenter {text-align: center;}
+  &.alignright {text-align: right;}
+
+  &.t0{ font-size: 18px; }
+
+  &.h0{ font-size: 38px; }
+  &.h1{ font-size: 33px; }
+  &.h2{ font-size: 28px; }
+
+  .textbox-content{
+    padding: 0;
+    margin: 0;
+  }
+}

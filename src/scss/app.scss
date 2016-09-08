@@ -1,0 +1,120 @@
+.app{
+  margin-top: 100px;
+}
+
+p{
+  margin: 0;
+  padding: 0;
+}
+
+div{
+  padding: 0;
+  margin: 0;
+}
+
+
+.app-container{
+  position: relative;
+  padding: 10px;
+  box-sizing: border-box;
+  width: 66%;
+  margin: auto;
+}
+
+.border{
+  border: 1px solid black;
+}
+
+.abs{
+  position: absolute;
+}
+
+.rel{
+  position: relative;
+}
+
+.inline-block{
+  display: inline-block;
+}
+
+.float-left{
+  float: left;
+}
+
+.float-right{
+  float: right;
+}
+
+$n: 0;
+
+@while $n<=100{
+  .top-#{$n}{
+    top: $n+%;
+  }
+  .bottom-#{$n}{
+    bottom: $n+%;
+  }
+  .left-#{$n}{
+    left: $n+%;
+  }
+  .right-#{$n}{
+    right: $n+%;
+  }
+  $n: $n + 25;
+}
+
+.vert-center{
+  top:50%;
+  transform: translate(0, -50%);
+}
+
+.horiz-center{
+  left:50%;
+  transform: translate(-50%, 0);
+}
+
+.all-center{
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+$i: 5;
+
+@while $i<=100{
+  .col-#{$i}{
+    width: $i+%;
+  }
+
+  $i: $i + 5;
+}
+
+.col-33{
+  width: 33.3333%;
+}
+
+
+.group:before,
+.group:after {
+	content: "";
+	display: table;
+}
+
+.group:after {
+	clear: both;
+}
+
+.group {
+	zoom: 1;
+}
+
+
+
+.switch-editor{
+  margin: 20px;
+  cursor: pointer;
+  z-index: 100;
+//  top: 5px;
+//  left: 5px;
+  border: 2px solid black;
+}

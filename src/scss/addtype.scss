@@ -1,0 +1,30 @@
+.addtype{
+  //height: 100%;
+  //width: 100%;
+  //background-color: red;
+
+  font-family: 'Dosis', 'arial';
+  cursor: pointer;
+  margin: 5px 10px;
+
+  background-color: black;
+  color: white;
+  border-radius: 4px;
+  padding: 3px 7px;
+  //border: 1px solid blue;
+
+  &.text-style{ background-color: grey; }
+
+  &.youtube-style{ background-color: red; }
+
+  &.twitter-style{ background-color: rgb(87, 160, 218); }
+
+  &.map-style{ background-color: green; }
+
+  &.codepen-style{ background-color: orange; }
+
+  &.heading-style{ background-color: grey; }
+
+  &.image-style{ background-color: rgb(66, 180, 94); }
+
+}

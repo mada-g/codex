@@ -1,0 +1,14 @@
+.item-container{
+  //border: 1px solid green;
+
+  box-sizing: border-box;
+
+  padding: 15px;
+
+//  border: 1px solid black;
+  //margin: 0px 0;
+
+  .inFocus{
+    border: 3px solid rgb(62, 68, 73);
+  }
+}
