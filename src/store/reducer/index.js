@@ -7,6 +7,29 @@ function addID(offset, state, prevID, id){
   return state.updateIn(['data', 'sections'], val => val.insert(at, id));
 }
 
+function addHeadingID(state, closestHeading, id){
+  let at = 0;
+  if(closestHeading){
+    at = state.getIn(['data', 'headings']).findKey(function(n){return n===closestHeading}) + 1;
+  }
+  return state.updateIn(['data', 'headings'], val => val.insert(at, id));
+}
+
+function findClosestHeading(state, prevID, after){
+  var sections = state.getIn(['data', 'sections']).toJS();
+
+  var closest = null;
+  for(let i=0; i<sections.length; i++){
+
+    if(after===0 && sections[i] === prevID) return closest;
+    if(state.getIn(['data', 'items', sections[i], 'type']) === 'header'){
+      closest = sections[i];
+    }
+    if(sections[i] === prevID) return closest;
+  }
+  return closest;
+}
+
 export default function(state = INIT_STATE, action){
 
   switch (action.type) {
@@ -19,13 +42,52 @@ export default function(state = INIT_STATE, action){
 
     case 'NEW_HEADER': {
       let val = action.val ? action.val : null;
-      let newHeader = Map({type: "header", content: val, options: Map({align: "alignleft", size: action.size}) });
-      return addID(action.after, state, action.prevID, action.contentID).setIn(['data', 'items', action.contentID], newHeader);
+
+      let closestHeading = findClosestHeading(state, action.prevID, action.after);
+
+      let newHeader = Map({type: "header", content: val, options: Map({align: "alignleft", size: action.size, level: null}) });
+      let newState = addID(action.after, state, action.prevID, action.contentID)
+      return addHeadingID(newState, closestHeading, action.contentID)
+              .setIn(['data', 'items', action.contentID], newHeader);
+    }
+
+    case 'COMPUTE_HEADING_LEVELS': {
+      let newState = state;
+      let headings = state.getIn(['data', 'headings']).toJS();
+      var l1 = 0, l2 = 0, l3 = 0;
+
+
+      for(let i=0; i<headings.length; i++){
+        let size = state.getIn(['data', 'items', headings[i], 'options', 'size']);
+        if(size === 'h2') {
+          l3++;
+          if(l1===0) l1=1;
+          if(l2===0) l2=1;
+        }
+        else if(size === 'h1') {
+          l2++;
+          l3=0;
+          if(l1===0) l1=1;
+        }
+        else {
+          l1++;
+          l2=0;
+          l3=0;
+        }
+
+        newState = newState.setIn(['data', 'items', headings[i], 'options', 'level'], Map({l1:l1, l2:l2, l3:l3}))
+      }
+
+      return newState;
     }
 
     case 'DELETE_ITEM': {
       return state.updateIn(['data', 'sections'], val => val.filter(k => k !== action.itemId))
                   .updateIn(['data', 'items'], val => val.delete(action.itemId));
+    }
+
+    case 'DELETE_HEADING': {
+      return state.updateIn(['data', 'headings'], val => val.filter(k => k !== action.itemId));
     }
 
     case 'ADD_IMG': {

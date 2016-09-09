@@ -9,7 +9,7 @@ export function addItem(after, label, prevID, contentID, data){
       dispatch(addText(after, "ttt", prevID, contentID));
     }
     else if(label === "heading"){
-      dispatch(addHeader(after, "", "h0", prevID, contentID));
+      dispatch(insertHeader(after, "", "h0", prevID, contentID));
     }
     else if(label === "image"){
       dispatch(addImg(after, data.url, data.imgid, prevID, contentID))
@@ -49,6 +49,22 @@ export function addText(after, txt, prevID, contentID){
   }
 }
 
+
+export function insertHeader(after, txt, size, prevID, contentID){
+  return function(dispatch, getState){
+    dispatch(addHeader(after, txt, size, prevID, contentID));
+    dispatch(computeHeadingLevels());
+    console.log(getState().toJS())
+  }
+}
+
+export function deleteHeading(itemId){
+  return {
+    type: 'DELETE_HEADING',
+    itemId
+  }
+}
+
 export function addHeader(after, txt, size, prevID, contentID){
   return {
     type: "NEW_HEADER",
@@ -60,6 +76,11 @@ export function addHeader(after, txt, size, prevID, contentID){
   }
 }
 
+export function computeHeadingLevels(){
+  return {
+    type: "COMPUTE_HEADING_LEVELS"
+  }
+}
 
 export function setImg(src){
   return {
@@ -155,6 +176,13 @@ export function deleteItemInFocus(){
     let itemInFocus = getState().getIn(['app', 'focus']);
     if(!itemInFocus) return;
 
+    let type = getState().getIn(['data', 'items', itemInFocus, 'type']);
+    if(type === 'header'){
+      console.log(itemInFocus)
+      dispatch(deleteHeading(itemInFocus));
+      dispatch(computeHeadingLevels());
+    }
+
     dispatch(clearFocus());
     dispatch(deleteItem(itemInFocus));
   }
@@ -168,11 +196,18 @@ export function change_OPTION_alignment(itemId, align){
   }
 }
 
-export function change_OPTION_size(itemId, size){
+export function change_heading_size(itemId, size){
   return {
     type: "CHANGE_OPTION_SIZE",
     itemId,
     val: size
+  }
+}
+
+export function change_OPTION_size(itemId, size){
+  return function(dispatch){
+    dispatch(change_heading_size(itemId, size));
+    dispatch(computeHeadingLevels());
   }
 }
 
@@ -197,5 +232,12 @@ export function saveData(){
     console.log('packing data...');
     console.log(data);
     ajaxSendData('/save', JSON.stringify(data)).then(console.log);
+  }
+}
+
+
+export function fetchTweet(){
+  return function(dispatch){
+
   }
 }

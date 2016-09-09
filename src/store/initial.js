@@ -8,6 +8,8 @@ export default {
       'title2': {type:"text", content:"", options: {align: "alignleft"}}
     },
 
+    headings: [],
+
     img: null
   },
 

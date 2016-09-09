@@ -27,9 +27,7 @@ export default class MediaDisp extends React.Component{
       return <MediaSelect label={this.props.label} handleSelect={this.handleSelect}/>
     }
     else{
-      return <div className={`media-box ${this.props.boxStyle}`}>
-        <iframe className="media-elem" src={options.src}></iframe>
-      </div>
+      return this.props.children
     }
   }
 

@@ -19,12 +19,23 @@ import MediaSelect from './mediaSelect.jsx';
 import YoutubeItem from './youtubeItem.jsx';
 import MediaDisp from './MediaDisp.jsx';
 
+import fetchTweet from '../utils/fetchTweet.js';
+
 class App extends React.Component{
 
   handleOnFocus = (id) => {
     return () => {
       this.props.focusOnItem(id);
     }
+  }
+
+  renderMediaDisp = (id, options, label, match, baseUrl, handleSelect, handleClick) => {
+    return (elem) => {
+      return <MediaDisp componentId={id} options={options} label={label} match={match} baseUrl={baseUrl} handleSelect={handleSelect} handleClick={handleClick}>
+        {elem}
+      </MediaDisp>
+    }
+
   }
 
   renderContent = () => {
@@ -47,11 +58,22 @@ class App extends React.Component{
         itemComp = <ImgDisp componentId={id} src={item.src} options={options} handleClick={this.handleOnFocus(id)} />
       }
       else if(type === "youtube"){
-        itemComp = <MediaDisp componentId={id} options={options} boxStyle="yt-box" label="enter youtube link" match="watch?v=" baseUrl="https://www.youtube.com/embed" handleSelect={this.props.change_OPTION_src} handleClick={this.handleOnFocus(id)} />
+        itemComp = this.renderMediaDisp(id, options, 'enter youtube link', "watch?v=", "https://www.youtube.com/embed", this.props.change_OPTION_src, this.handleOnFocus(id))
+        itemComp = itemComp(
+          <div className={`media-box yt-box`}>
+            <iframe className="media-elem" src={options.src}></iframe>
+          </div>
+        )
       }
       else if(type === "codepen"){
-        itemComp = <MediaDisp componentId={id} options={options} boxStyle="codepen-box" label="enter codepen link" match="pen/" baseUrl="http://codepen.io/chriscoyier/embed" handleSelect={this.props.change_OPTION_src} handleClick={this.handleOnFocus(id)} />
+        itemComp = this.renderMediaDisp(id, options, "enter codepen link", "pen/", "http://codepen.io/chriscoyier/embed", this.props.change_OPTION_src, this.handleOnFocus(id))
+        itemComp = itemComp(
+          <div className={`media-box codepen-box`}>
+            <iframe className="media-elem" src={options.src}></iframe>
+          </div>
+        )
       }
+
       else return null;
 
       return <Item key={id} componentId={id}>
