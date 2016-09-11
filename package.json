@@ -26,6 +26,7 @@
     "react-router": "^1.0.3",
     "redux": "^3.0.4",
     "redux-thunk": "^1.0.0",
+    "roman-numerals": "^0.3.2",
     "shortid": "^2.2.6",
     "whatwg-fetch": "^1.0.0"
   },

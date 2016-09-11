@@ -35,3 +35,11 @@ export function ajaxSendData(url, data){
 
   })
 }
+
+export function ajaxGetData(url){
+  return new Promise((resolve, reject) => {
+    $.get(url, (res) => {
+      resolve(res);
+    })
+  })
+}

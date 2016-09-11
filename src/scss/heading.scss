@@ -1,7 +1,48 @@
 .heading{
   position: relative;
   > .content{
+    &.h0{font-size: 38px;}
+    &.h1{ font-size: 33px; }
+    &.h2{ font-size: 28px; }
     //background-color: #ebebeb;
-    border-left: 3px solid black;
+    //border-left: 3px solid black;
+    position: relative;
+
+    &.alignleft {text-align: left;}
+    &.aligncenter {text-align: center;}
+    &.alignright {text-align: right;}
+
+    font-family: 'Dosis', 'Arial';
   }
+}
+
+
+.heading-label{
+  height: 100%;
+  width: 70px;
+  vertical-align: top;
+}
+
+.heading-level{
+  position: absolute;
+  top:0;
+  width: 70px;
+  text-align: right;
+  padding-right: 10px;
+  box-sizing: border-box;
+}
+
+.heading-label-center{
+  width: 100%;
+}
+
+.headingInput{
+  display: inline-block;
+  min-width: 80px;
+  //padding: 10px;
+
+  background-color: lightgrey;
+  height: 100%;
+  text-align: center;
+  padding: 3px 10px;
 }

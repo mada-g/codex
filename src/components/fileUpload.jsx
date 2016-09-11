@@ -15,8 +15,16 @@ export default class FileUpload extends React.Component{
     const fs = this.refs.fileInput.getDOMNode().files;
     const f = fs[0];
 
-    if(this.props.prevID){
-      this.props.selectImg(f, this.props.after, this.props.prevID, `cid${shortid.generate()}`);
+    let _URL = window.URL || window.webkitURL;
+
+    let img = new Image();
+    img.src = _URL.createObjectURL(f);
+    let ctx = this;
+    img.onload = function(){
+      if(ctx.props.prevID){
+        ctx.props.selectImg(f, {width: this.width, height: this.height}, ctx.props.after, ctx.props.prevID, `cid${shortid.generate()}`);
+      }
+
     }
 
   }

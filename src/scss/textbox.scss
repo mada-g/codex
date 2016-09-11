@@ -71,20 +71,22 @@
 
 
 .textbox-area{
-  display: block;
+  //display: inline-block;
+
+  //width: 100%;
 
   margin: 0;
   padding: 10px;
   outline: 0;
   white-space: pre-wrap;
   word-wrap: break-word;
-  //border: 1px solid black;
   box-sizing: border-box;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
 
-  font-family: "Dosis", "Arial";
+
+  font-family: "Dosis", "arial";
 
   &.alignleft {text-align: left;}
   &.aligncenter {text-align: center;}
@@ -97,7 +99,10 @@
   &.h2{ font-size: 28px; }
 
   .textbox-content{
+    // /border: 1px solid black;
+    border: none;
     padding: 0;
     margin: 0;
+    vertical-align: bottom;
   }
 }

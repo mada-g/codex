@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Add from './add.jsx';
+import FileUpload from './fileUpload.jsx';
 
 export default class ImgDisp extends React.Component{
 

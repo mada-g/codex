@@ -52,7 +52,7 @@ class App extends React.Component{
         itemComp = <Section componentId={id} options={options} txt={content} focus={focus} handleClick={this.handleOnFocus(id)} />;
       }
       else if(type === "header"){
-        itemComp = <Heading componentId={id} options={options} txt={content} handleClick={this.handleOnFocus(id)} />
+        itemComp = <Heading componentId={id} options={options} numbering={this.props.data.headingNumbering} txt={content} handleClick={this.handleOnFocus(id)} />
       }
       else if(type === "img"){
         itemComp = <ImgDisp componentId={id} src={item.src} options={options} handleClick={this.handleOnFocus(id)} />

@@ -27,12 +27,20 @@ export default class TextBox extends React.Component{
 
 export default class TextBox extends React.Component{
 
+  constructor(){
+    super();
+    this.state = {
+      label:""
+    }
+  }
+
   handleChange = (e) => {
     let txt = document.querySelector(`.${this.props.componentId} .textbox-content`);
     console.log(txt.innerHTML);
   }
 
   componentDidMount(){
+    this.setState({label: this.props.label});
     $(`.${this.props.componentId} .textbox-content`).html(this.props.txt);
   }
 

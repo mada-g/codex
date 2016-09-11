@@ -23,6 +23,12 @@ class Toolbar extends React.Component{
     }
   }
 
+  changeNumbering = (val) => {
+    return () => {
+      this.props.change_OPTION_numbering(val);
+    }
+  }
+
   renderAlignTools = (focus, align) => {
 
     let alignment = [{label: '', src: 'alignleft_w', selectedSrc: 'alignleft', selected: (align === 'alignleft'), handleClick: this.changeAlign(focus, 'alignleft')},
@@ -32,11 +38,11 @@ class Toolbar extends React.Component{
     return <ToolboxText title="alignment" btns={alignment} btnStyle="" />
   }
 
-  renderHeadingStyling = (focus) => {
+  renderHeadingStyling = (focus, numbering) => {
     let styling = [
-      {label: 'roman', src: null, selected: false, handleClick: null},
-      {label: 'standard', src: null, selected: true, handleClick: null},
-      {label: 'none', src: null, selected: false, handleClick: null}
+      {label: 'roman', src: null, selected: (numbering === "roman"), handleClick: this.changeNumbering('roman')},
+      {label: 'standard', src: null, selected: (numbering === "standard"), handleClick: this.changeNumbering('standard')},
+      {label: 'none', src: null, selected: (numbering === "none"), handleClick: this.changeNumbering('none')}
     ];
 
     return <ToolboxText title="heading style" btns={styling} btnStyle="heading-style-btn" />
@@ -59,6 +65,7 @@ class Toolbar extends React.Component{
 
   renderHeadingTools = (focus, options) => {
     return [
+      this.renderHeadingStyling(focus, this.props.data.headingNumbering),
       this.renderHeadingSize(focus, options.size),
       this.renderAlignTools(focus, options.align)
     ]
@@ -78,13 +85,13 @@ class Toolbar extends React.Component{
     else return null;
   }
 
-  renderPageButton = (label, src) => {
+  renderPageButton = (label, src, btnClick) => {
     return <div className="toolbox page-toolbox">
       <div className="toolbox-box">
         <div className="tool-title">
           {label}
         </div>
-        <div className="img-container">
+        <div className="img-container" onClick={btnClick}>
           <img src={`/assets/icons/${src}`}/>
         </div>
       </div>
@@ -93,9 +100,9 @@ class Toolbar extends React.Component{
 
   renderPageTools = () => {
     return [
-      this.renderPageButton('save', 'upload.png'),
-      this.renderPageButton('preview', 'eye.png'),
-      this.renderPageButton('publish', 'newspaper.png')
+      this.renderPageButton('save', 'upload.png', null),
+      this.renderPageButton('preview', 'eye.png', this.props.newPage),
+      this.renderPageButton('publish', 'newspaper.png', null)
     ]
   }
 

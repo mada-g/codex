@@ -1,24 +1,29 @@
-let base = "http://localhost:5000";
+import $ from 'jquery';
 
-function requestSignature(name, type){
+//let base = "http://localhost:3000";
+
+function requestSignature(name, type, dimen, pageid){
   return new Promise((resolve, reject) => {
-    let xhr = new XMLHttpRequest();
 
-    xhr.open('GET', `${base}/sign-s3?file-name=${name}&file-type=${type}`);
-
-    xhr.onreadystatechange = ()=>{
-      if(xhr.readyState === 4){
-        if(xhr.status === 200){
-          resolve(xhr.responseText);
-        }
-        else{
-          reject('Could not get signed url.');
-        }
+    $.ajax({
+      type: 'POST',
+      dataType: 'json',
+      contentType: 'application/json',
+      url: `/sign-s3`,
+      data: JSON.stringify({
+        filename: name,
+        filetype: type,
+        dimen: dimen,
+        pageid: pageid
+      }),
+      success: function(res){
+        resolve(res);
       }
-    }
-    xhr.send();
+    });
+
   })
 }
+
 
 function sendFile(file, req, url, id){
   return new Promise((resolve, reject)=>{
@@ -39,34 +44,23 @@ function sendFile(file, req, url, id){
   })
 }
 
-function confirmUpload(data){
+
+function confirmUpload(data, pageid){
   return new Promise((resolve, reject) => {
-    let xhr = new XMLHttpRequest();
-
-    xhr.open('GET', `${base}/valid-upload?imgid=${data.imgid}`);
-
-    xhr.onreadystatechange = ()=>{
-      if(xhr.readyState === 4){
-        if(xhr.status === 200){
-          let res = JSON.parse(xhr.responseText);
-          if(res.status === 'ok')
-            resolve(data);
-          else
-            reject('no confirmation.');
-        }
-        else{
-          reject('Could not confirm upload.');
-        }
-      }
-    }
-    xhr.send();
+    $.get(`/valid-upload?imgid=${data.imgid}&pageid=${pageid}`, (res) => {
+      console.log('++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
+      console.log(res);
+      console.log('++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
+      resolve(data);
+    });
   })
 }
 
 
-export function uploadToS3(file){
-  return requestSignature(file.name, file.type)
-    .then(response => {return JSON.parse(response)})
+export function uploadToS3(file, dimen, pageid){
+  console.log('uploading...');
+  return requestSignature(file.name, file.type, dimen, pageid)
+    //.then(response => {return JSON.parse(response)})
     .then((data) => {return sendFile(file, data.signedRequest, data.url, data.id)})
-    .then((data) => {return confirmUpload(data)})
+    .then((data) => {return confirmUpload(data, pageid)})
 }

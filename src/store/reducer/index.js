@@ -75,7 +75,7 @@ export default function(state = INIT_STATE, action){
           l3=0;
         }
 
-        newState = newState.setIn(['data', 'items', headings[i], 'options', 'level'], Map({l1:l1, l2:l2, l3:l3}))
+        newState = newState.setIn(['data', 'items', headings[i], 'options', 'level'], List([l1,l2,l3]))
       }
 
       return newState;
@@ -115,10 +115,19 @@ export default function(state = INIT_STATE, action){
       return state.updateIn(['app', 'editor'], val => !val);
     }
 
+    case 'SET_IMG_BANK': {
+      return state.setIn(['data', 'imgsData'], action.val);
+    }
+
     case 'OPEN_IMAGE_SELECT_PAGE': {
-      return state.updateIn(['app', 'editor'], val => !val)
+      return state.setIn(['app', 'editor'], false)
                   .setIn(['app', 'imgInsertId'], action.componentId)
                   .setIn(['app', 'after'], action.after);
+    }
+
+    case 'CLOSE_IMG_SELECT_PAGE': {
+      return state.setIn(['app', 'imgInsertId'], null)
+                  .setIn(['app', 'editor'], true)
     }
 
     case 'CLEAR_IMG_INSERT_ID': {
@@ -147,6 +156,10 @@ export default function(state = INIT_STATE, action){
 
     case 'CHANGE_OPTION_SRC': {
       return state.setIn(['data', 'items', action.itemId, 'options', 'src'], action.val);
+    }
+
+    case 'CHANGE_OPTION_NUMBERING': {
+      return state.setIn(['data', 'headingNumbering'], action.val);
     }
 
     default:

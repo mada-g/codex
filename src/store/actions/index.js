@@ -1,7 +1,7 @@
 import {List, Map, fromJS, toJS} from 'immutable';
 
 import {uploadToS3} from '../../utils/file-uploading.js';
-import {sendPageData, ajaxSendData} from '../../utils/saveData.js';
+import {sendPageData, ajaxSendData, ajaxGetData} from '../../utils/saveData.js';
 
 export function addItem(after, label, prevID, contentID, data){
   return function(dispatch){
@@ -100,12 +100,14 @@ export function addImg(after, url, imgid, prevID, componentId){
   }
 }
 
-export function selectImg(file, after, prevID, componentId){
-  return function(dispatch){
-    return uploadToS3(file).then((data) => {
+export function selectImg(file, dimen, after, prevID, componentId){
+  return function(dispatch, getState){
+    const pageid = getState().getIn(['data', 'pageid']);
+
+    return uploadToS3(file, dimen, pageid).then((data) => {
       console.log("url: " + data.url);
       dispatch(addImg(after, data.url, data.imgid, prevID, componentId));
-      return dispatch(clearImgInsertId());
+      return dispatch(closeImgSelectPage());
     })
   }
 }
@@ -128,6 +130,12 @@ export function openImgSelectPage(componentId, after){
     type: "OPEN_IMAGE_SELECT_PAGE",
     componentId,
     after
+  }
+}
+
+export function closeImgSelectPage(){
+  return {
+    type: "CLOSE_IMG_SELECT_PAGE"
   }
 }
 
@@ -219,6 +227,20 @@ export function change_OPTION_src(itemId, src){
   }
 }
 
+export function change_OPTION_numbering(val){
+  return {
+    type: "CHANGE_OPTION_NUMBERING",
+    val
+  }
+}
+
+export function setImgBank(val){
+  return {
+    type: 'SET_IMG_BANK',
+    val
+  }
+}
+
 export function newPage(){
   return function(dispatch){
     let data = {title: "My New Adventure"};
@@ -235,6 +257,20 @@ export function saveData(){
   }
 }
 
+export function fetchImgsData(){
+  return function(dispatch, getState){
+    const pageid = getState().getIn(['data', 'pageid']);
+
+    return ajaxGetData('/pageimgs?pageid='+pageid).then((res) => {
+      console.log(res);
+      if(res && res.status && res.imgsData){
+        console.log(res.imgsData);
+        return dispatch(setImgBank(res.imgsData));
+      }
+    })
+
+  }
+}
 
 export function fetchTweet(){
   return function(dispatch){
