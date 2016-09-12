@@ -91,9 +91,9 @@ export default function(state = INIT_STATE, action){
     }
 
     case 'ADD_IMG': {
-      if(!action.url) return state;
+      if(!action.url || !action.dimen) return state;
 
-      let newImg = Map({type: "img", src: action.url, imgid: action.imgid, options: Map({align: ""}) });
+      let newImg = Map({type: "img", src: action.url, imgid: action.imgid, options: Map({width: action.dimen.width, height: action.dimen.height}) });
       return addID(action.after, state, action.prevID, action.componentId).setIn(['data', 'items', action.componentId], newImg);
     }
 
@@ -122,12 +122,12 @@ export default function(state = INIT_STATE, action){
     case 'OPEN_IMAGE_SELECT_PAGE': {
       return state.setIn(['app', 'editor'], false)
                   .setIn(['app', 'imgInsertId'], action.componentId)
-                  .setIn(['app', 'after'], action.after);
+                  .setIn(['app', 'after'], action.after)
+                  .setIn(['app', 'focus'], null);
     }
 
     case 'CLOSE_IMG_SELECT_PAGE': {
-      return state.setIn(['app', 'imgInsertId'], null)
-                  .setIn(['app', 'editor'], true)
+      return state.setIn(['app', 'editor'], true)
     }
 
     case 'CLEAR_IMG_INSERT_ID': {

@@ -48,10 +48,14 @@ function sendFile(file, req, url, id){
 function confirmUpload(data, pageid){
   return new Promise((resolve, reject) => {
     $.get(`/valid-upload?imgid=${data.imgid}&pageid=${pageid}`, (res) => {
+      let parsedRes = JSON.parse(res);
       console.log('++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
-      console.log(res);
+      console.log(parsedRes);
       console.log('++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
-      resolve(data);
+      if(parsedRes['status'])
+        resolve(parsedRes['imgData']);
+      else
+        reject(parsedRes);
     });
   })
 }

@@ -1,31 +1,24 @@
 .imgDisp{
-  border: 1px solid black;
-  position: relative;
+//  background-color: grey;
   width: 100%;
-  font-size: 0;
-  text-align: center;
+  position: relative;
+  > .img-container{
+    position: relative;
 
-  & > .content{
-    border: 3px solid red;
-    display: inline-block;
-    max-width: 100%;
+    img{
+      display: block;
+      margin: auto;
+      cursor: pointer;
+      &.bigWidth{
+        width: 100%;
+        height: auto;
+      }
 
-    .subtitle{
-      display: inline-block;
-      width: 103px;
-      height: 100px;
-      background-color: red;
+      &.bigHeight{
+        height: 65vh;
+        width: auto;
+        max-width: 100%;
+      }
     }
-
-    .img-container{
-      display: inline-block;
-    }
-  }
-
-  img{
-    display: inline-block;
-    border: 3px solid blue;
-    display: block;
-    //margin: auto;
   }
 }

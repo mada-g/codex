@@ -39,6 +39,7 @@ class App extends React.Component{
   }
 
   renderContent = () => {
+    console.log(this.props.data.sections);
     return this.props.data.sections.map((id) => {
       const item = this.props.data.items[id];
       const type = item.type;

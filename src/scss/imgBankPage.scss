@@ -31,11 +31,17 @@
       margin: 40px;
       //margin-bottom: 80px;
       //padding: 40px;
-      overflow: hidden;
+      //overflow: hidden;
 //      border: 1px solid black;
-      box-sizing: border-box;
+      //box-sizing: border-box;
+
+      &.selected img{
+        border: 2px solid black;
+      }
 
       img{
+        cursor: pointer;
+
         width: 100%;
         height: 100%;
 
@@ -45,4 +51,54 @@
     }
   }
 
+}
+
+
+.img-select-bar{
+  background-color: rgb(214, 214, 214);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+
+  .img-select-btn{
+    position: relative;
+    display: inline-block;
+    padding: 20px 35px;
+
+    font-size: 22px;
+    font-family: 'Dosis', 'arial';
+    color: white;
+
+    .img-select-insert{
+      cursor: pointer;
+      padding: 5px 10px;
+      background-color: rgb(58, 187, 110);
+    }
+
+    .img-select-delete{
+      cursor: pointer;
+      padding: 5px 10px;
+      background-color: rgb(185, 81, 67);
+    }
+  }
+}
+
+
+.imgBankPage{
+  .back-btn-container{
+    //background-color: grey;
+    text-align: left;
+    margin-bottom: 40px;
+
+    .back-btn{
+      display: inline-block;
+      //background-color: red;
+      img{
+        width: 45px;
+        height: 45px;
+      }
+    }
+  }
 }

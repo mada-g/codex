@@ -120,9 +120,9 @@ class Toolbar extends React.Component{
 
         {this.renderToolBoxes(this.props.app.focus)}
 
-        <div className="toolbox btn-del" onClick={this.props.deleteItemInFocus}>
+        {this.props.app.editor ? <div className="toolbox btn-del" onClick={this.props.deleteItemInFocus}>
           <span className="abs all-center">delete item</span>
-        </div>
+        </div> : null}
 
       </div>
 

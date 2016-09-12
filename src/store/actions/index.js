@@ -89,11 +89,12 @@ export function setImg(src){
   }
 }
 
-export function addImg(after, url, imgid, prevID, componentId){
+export function addImg(after, data, prevID, componentId){
   return {
     type: "ADD_IMG",
-    url,
-    imgid,
+    url: data.url,
+    imgid: data.imgid,
+    dimen: data.dimen,
     prevID,
     componentId,
     after
@@ -106,8 +107,22 @@ export function selectImg(file, dimen, after, prevID, componentId){
 
     return uploadToS3(file, dimen, pageid).then((data) => {
       console.log("url: " + data.url);
-      dispatch(addImg(after, data.url, data.imgid, prevID, componentId));
-      return dispatch(closeImgSelectPage());
+      console.log("dimen valid: " + data.dimen)
+      dispatch(addImg(after, data, prevID, componentId));
+      dispatch(closeImgSelectPage());
+      return dispatch(clearImgInsertId());
+    })
+  }
+}
+
+export function deleteImage(imgid){
+  if(!imgid) return;
+  return function(dispatch, getState){
+    const pageid = getState().getIn(['data', 'pageid']);
+
+    return ajaxGetData(`/delete-image?pageid=${pageid}&imgid=${imgid}`).then(JSON.parse).then((res) => {
+      if(res.status) dispatch(fetchImgsData());
+      return res.status;
     })
   }
 }
@@ -231,6 +246,14 @@ export function change_OPTION_numbering(val){
   return {
     type: "CHANGE_OPTION_NUMBERING",
     val
+  }
+}
+
+export function selectImgFromBank(data, after, prevID, componentId){
+  return function(dispatch){
+    dispatch(closeImgSelectPage());
+    dispatch(addImg(after, data, prevID, componentId))
+    dispatch(clearImgInsertId());
   }
 }
 
