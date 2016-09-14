@@ -1,10 +1,16 @@
 import React from 'react';
 import romanNum from 'roman-numerals';
+import $ from 'jquery';
 
 import TextBox from './textbox.jsx';
 import Add from './add.jsx';
 
 export default class Heading extends React.Component{
+
+  componentDidMount(){
+    $(`.${this.props.componentId} .textbox-content`).html(this.props.txt);
+  }
+
 
   formatLabel = (l, numbering) => {
     if(numbering === "none") return "";
@@ -72,7 +78,7 @@ export default class Heading extends React.Component{
       <div className={`content ${this.props.componentId} ${this.props.options.size} ${this.props.options.align}`}>
         {this.renderLabel(this.props.options, numbering)}
         <div className={`headingInput`}>
-          <div contentEditable className="textbox-content">Title</div>
+          <div contentEditable className="textbox-content">title</div>
         </div>
       </div>
     </div>

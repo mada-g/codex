@@ -4,10 +4,17 @@ import {Map, List, toJS} from 'immutable';
 
 import * as actions from '../store/actions/index.js';
 
+import extractHtmlData from '../utils/extractHtmlData.js';
+
 import ToolboxText from './toolboxText.jsx';
 
 
 class Toolbar extends React.Component{
+
+  savePage = () => {
+    extractHtmlData(this.props.data.sections, this.props.saveItemContent);
+    this.props.saveData();
+  }
 
   changeAlign = (focus, val) => {
     return () => {
@@ -100,8 +107,8 @@ class Toolbar extends React.Component{
 
   renderPageTools = () => {
     return [
-      this.renderPageButton('save', 'upload.png', null),
-      this.renderPageButton('preview', 'eye.png', this.props.newPage),
+      this.renderPageButton('save', 'upload.png', this.savePage),
+      this.renderPageButton('preview', 'eye.png', null),
       this.renderPageButton('publish', 'newspaper.png', null)
     ]
   }
@@ -120,7 +127,7 @@ class Toolbar extends React.Component{
 
         {this.renderToolBoxes(this.props.app.focus)}
 
-        {this.props.app.editor ? <div className="toolbox btn-del" onClick={this.props.deleteItemInFocus}>
+        {(this.props.app.editor || this.props.app.focus === 'title') ? <div className="toolbox btn-del" onClick={this.props.deleteItemInFocus}>
           <span className="abs all-center">delete item</span>
         </div> : null}
 

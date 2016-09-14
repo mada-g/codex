@@ -34,19 +34,29 @@
       //overflow: hidden;
 //      border: 1px solid black;
       //box-sizing: border-box;
-
-      &.selected img{
-        border: 2px solid black;
-      }
+      font-size: 0;
 
       img{
         cursor: pointer;
+        font-size: 0;
 
         width: 100%;
         height: 100%;
 
-        &.bigWidth{height: auto;}
-        &.bigHeight{width: auto;}
+        &.bigWidth{
+          height: auto;
+        }
+        &.bigHeight{
+          width: auto;
+        }
+
+        &.selected{
+          border: 4px solid black;
+        }
+        &.unselected:hover{
+          border: 4px solid rgb(148, 148, 148);
+        }
+
       }
     }
   }
@@ -96,9 +106,23 @@
       display: inline-block;
       //background-color: red;
       img{
+        cursor: pointer;
         width: 45px;
         height: 45px;
       }
     }
+  }
+}
+
+.fading{
+  animation: fadein 1s;
+}
+
+@keyframes fadein {
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 100%;
   }
 }

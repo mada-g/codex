@@ -1,0 +1,76 @@
+.pageList{
+  //background-color: grey;
+  text-align: center;
+  //box-sizing: border-box;
+
+  .title{
+    font-family: 'Oleo Script','Merriweather Sans', 'arial';
+    font-size: 42px;
+    margin: 0 15px;
+    margin-bottom: 15px;
+
+    .title-box{
+      display: inline-block;
+      //border-bottom: 4px solid rgb(205, 95, 80);
+      //border-bottom: 2px solid rgb(75, 191, 93);
+      //background-color: black;
+      color: black;
+      padding: 10px 20px;
+    }
+  }
+
+  &.left .list-area{
+    border-right: 4px solid rgb(61, 150, 168);
+  }
+
+
+  &.right .list-area{
+    border-left: 4px solid rgb(205, 107, 51);
+  }
+
+  .list-area{
+    //border: 1px solid black;
+    box-sizing: border-box;
+    min-height: 100px;
+  //  background-color: white;
+  }
+
+
+  .no-page{
+    display: inline-block;
+    margin: 15px;
+    padding: 5px;
+    font-family: 'Josefin Sans', 'arial';
+    font-size: 23px;
+    color: grey;
+  }
+
+  .list-elem{
+    cursor: pointer;
+    display: inline-block;
+    margin: 15px;
+    margin-top: 0;
+    padding: 5px;
+    //border: 1px solid black;
+    box-sizing: border-box;
+    text-align: left;
+
+    .page-title{
+      //border: 1px solid black;
+      box-sizing: border-box;
+      font-family: 'Josefin Sans', 'arial';
+      font-size: 20px;
+    }
+
+    .page-details{
+      font-family: 'Josefin Sans', 'arial';
+      font-size: 16px;
+      color: grey;
+    }
+
+    &:hover{
+      background-color: black;
+      color: white;
+    }
+  }
+}

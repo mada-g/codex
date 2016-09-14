@@ -40,7 +40,7 @@ export default class TextBox extends React.Component{
   }
 
   componentDidMount(){
-    this.setState({label: this.props.label});
+    //this.setState({label: this.props.label});
     $(`.${this.props.componentId} .textbox-content`).html(this.props.txt);
   }
 

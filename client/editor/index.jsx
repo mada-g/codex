@@ -5,16 +5,16 @@ import thunkMiddleware from 'redux-thunk';
 import {List, Map, fromJS, toJS} from 'immutable';
 import {Provider} from 'react-redux';
 
-import '../src/scss/style.scss';
+import '../../src/scss/x_style_editor.scss';
 
-import reducer from '../src/store/reducer/index.js';
-import * as actions from '../src/store/actions/index.js';
+import reducer from '../../src/store/reducer/index.js';
+import * as actions from '../../src/store/actions/index.js';
 
-import initState from '../src/store/initial.js';
-import App from '../src/components/app.jsx';
+import initState from '../../src/store/initial.js';
+import App from '../../src/components/app.jsx';
 
 
-/*
+
 let pageContent = window.__init_state;
 
 let initialState = {
@@ -29,9 +29,9 @@ let initialState = {
 
 console.log(initialState);
 initialState = fromJS(initialState);
-*/
 
-let store = applyMiddleware(thunkMiddleware)(createStore)(reducer, fromJS(initState));
+
+let store = applyMiddleware(thunkMiddleware)(createStore)(reducer, initialState);
 //let store = createStore(reducer, fromJS(initState));
 
 

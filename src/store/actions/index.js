@@ -1,4 +1,5 @@
 import {List, Map, fromJS, toJS} from 'immutable';
+import $ from 'jquery';
 
 import {uploadToS3} from '../../utils/file-uploading.js';
 import {sendPageData, ajaxSendData, ajaxGetData} from '../../utils/saveData.js';
@@ -6,7 +7,7 @@ import {sendPageData, ajaxSendData, ajaxGetData} from '../../utils/saveData.js';
 export function addItem(after, label, prevID, contentID, data){
   return function(dispatch){
     if(label === "text"){
-      dispatch(addText(after, "ttt", prevID, contentID));
+      dispatch(addText(after, "", prevID, contentID));
     }
     else if(label === "heading"){
       dispatch(insertHeader(after, "", "h0", prevID, contentID));
@@ -264,6 +265,16 @@ export function setImgBank(val){
   }
 }
 
+export function saveTitle(){
+
+  let val = $('.title .textbox-content').text();
+
+  return {
+    type: 'SAVE_TITLE',
+    val
+  }
+}
+
 export function newPage(){
   return function(dispatch){
     let data = {title: "My New Adventure"};
@@ -273,6 +284,7 @@ export function newPage(){
 
 export function saveData(){
   return function(dispatch, getState){
+    dispatch(saveTitle());
     let data = getState().get('data').toJS();
     console.log('packing data...');
     console.log(data);

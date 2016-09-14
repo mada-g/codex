@@ -5,14 +5,21 @@ var autoprefixer = require('autoprefixer');
 
 module.exports = {
 
-  entry: [
-    'webpack-dev-server/client?http://127.0.0.1:8080',
-    'webpack/hot/only-dev-server',
-    './client'
-  ],
+  entry: {
+    editor: [
+      'webpack-dev-server/client?http://127.0.0.1:8080',
+      'webpack/hot/only-dev-server',
+      './client/editor'
+    ],
+    home: [
+      'webpack-dev-server/client?http://127.0.0.1:8080',
+      'webpack/hot/only-dev-server',
+      './client/home'
+    ]
+  },
   output: {
     path: __dirname + '/public',
-    filename: 'app.js'
+    filename: '[name].js'
   },
   resolve: {
     modulesDirectories: ['node_modules', 'shared'],
@@ -32,7 +39,8 @@ module.exports = {
     ]
   },
   plugins: [
-    new ExtractTextPlugin('style.css'),
+    new webpack.optimize.CommonsChunkPlugin('common.js'),
+    new ExtractTextPlugin('[name]_style.css'),
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': JSON.stringify('production')

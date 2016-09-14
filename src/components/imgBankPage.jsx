@@ -23,6 +23,15 @@ class ImgBankPage extends React.Component{
     this.props.fetchImgsData();
   }
 
+  backButtonClick = () => {
+    this.props.closeImgSelectPage();
+    this.props.clearImgInsertId();
+  }
+
+  clearImgFocus = () => {
+    this.setState({selectedImg: null});
+  }
+
   insertFromImgBank = () => {
     this.props.selectImgFromBank(this.state.selectedImg, this.props.app.after, this.props.app.imgInsertId, `cid${shortid.generate()}`);
   }
@@ -39,7 +48,7 @@ class ImgBankPage extends React.Component{
   renderUploadArea = () => {
     return <div className="add-img">
         <div className="sect-title"><span>Add a new image</span></div>
-        <div className="upload-area">
+        <div className="upload-area" onClick={this.clearImgFocus}>
           <FileUpload uploadFile={this.props.uploadFile} selectImg={this.props.selectImg} prevID={this.props.app.imgInsertId} after={this.props.app.after} />
         </div>
       </div>
@@ -48,9 +57,9 @@ class ImgBankPage extends React.Component{
   renderImgBank = (imgs) => {
     return imgs.map((img) => {
       let dimenClass = (img.dimen.width > img.dimen.height) ? 'bigWidth' : 'bigHeight';
-      let isSelected = (this.state.selectedImg && this.state.selectedImg.imgid === img.imgid) ? "selected" : "";
-      return <div className={`img-select-elem ${img.imgid} ${isSelected}`} >
-        <img src={img.url} className={`abs all-center ${dimenClass}`} onClick={() => {this.setState({selectedImg: img})} } />
+      let isSelected = (this.state.selectedImg && this.state.selectedImg.imgid === img.imgid) ? "selected" : "unselected";
+      return <div className={`img-select-elem ${img.imgid} fading`} >
+        <img src={img.url} className={`abs all-center ${dimenClass} ${isSelected}`} onClick={() => {this.setState({selectedImg: img})} } />
       </div>
     })
   }
@@ -79,7 +88,7 @@ class ImgBankPage extends React.Component{
   renderBackBtn = () =>{
     return <div className="back-btn-container">
       <div className="back-btn">
-        <img src="/assets/icons/backspace-arrow-red.png"/>
+        <img src="/assets/icons/backspace-arrow-red.png" onClick={this.backButtonClick} />
       </div>
     </div>
   }

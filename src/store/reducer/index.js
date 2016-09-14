@@ -82,6 +82,7 @@ export default function(state = INIT_STATE, action){
     }
 
     case 'DELETE_ITEM': {
+      if(action.itemId === 'title') return state;
       return state.updateIn(['data', 'sections'], val => val.filter(k => k !== action.itemId))
                   .updateIn(['data', 'items'], val => val.delete(action.itemId));
     }
@@ -140,6 +141,10 @@ export default function(state = INIT_STATE, action){
 
     case 'FOCUS_ON_ITEM': {
       return state.setIn(['app', 'focus'], action.itemId);
+    }
+
+    case 'SAVE_TITLE': {
+      return state.setIn(['data', 'title'], action.val);
     }
 
     case 'CLEAR_FOCUS': {

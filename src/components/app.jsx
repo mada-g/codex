@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Map, List, toJS} from 'immutable';
 import shortid from 'shortid';
+import $ from 'jquery';
 
 import * as actions from '../store/actions/index.js';
 
@@ -26,6 +27,7 @@ class App extends React.Component{
   handleOnFocus = (id) => {
     return () => {
       this.props.focusOnItem(id);
+      $(`.${id} .textbox-content`).focus();
     }
   }
 
@@ -53,7 +55,7 @@ class App extends React.Component{
         itemComp = <Section componentId={id} options={options} txt={content} focus={focus} handleClick={this.handleOnFocus(id)} />;
       }
       else if(type === "header"){
-        itemComp = <Heading componentId={id} options={options} numbering={this.props.data.headingNumbering} txt={content} handleClick={this.handleOnFocus(id)} />
+        itemComp = <Heading componentId={id} options={options} txt={content} numbering={this.props.data.headingNumbering} txt={content} handleClick={this.handleOnFocus(id)} />
       }
       else if(type === "img"){
         itemComp = <ImgDisp componentId={id} src={item.src} options={options} handleClick={this.handleOnFocus(id)} />

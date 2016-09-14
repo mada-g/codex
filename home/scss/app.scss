@@ -1,0 +1,66 @@
+.app{
+  margin: 0;
+  position: relative;
+  padding: 0;
+}
+
+body, div {
+  margin: 0;
+  padding: 0;
+}
+
+a{
+  text-decoration: none;
+  color: black;
+
+  &:hover{
+    text-decoration: none;
+    color: black;
+  }
+}
+
+.allPages{
+  position: relative;
+  padding: 4px;
+
+  &.visib{
+    opacity: 100%;
+  }
+
+  &.no-visib{
+    opacity: 0;
+  }
+
+  transition: opacity 0.5s;
+
+  .list{
+    width: 50%;
+    padding: 20px 2px;
+    box-sizing: border-box;
+
+  }
+  .left-list{
+    float: left;
+  //  border-right: 7px solid rgb(20, 20, 20);
+//    background-color: rgb(189, 82, 68);
+  }
+  .right-list{
+    float: left;
+  //  border-left: 7px solid rgb(208, 42, 42);
+  }
+}
+
+
+.group:before,
+.group:after {
+	content: "";
+	display: table;
+}
+
+.group:after {
+	clear: both;
+}
+
+.group {
+	zoom: 1;
+}
