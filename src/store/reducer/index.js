@@ -41,7 +41,7 @@ export default function(state = INIT_STATE, action){
     }
 
     case 'NEW_HEADER': {
-      let val = action.val ? action.val : null;
+      let val = action.val ? action.val : "title";
 
       let closestHeading = findClosestHeading(state, action.prevID, action.after);
 

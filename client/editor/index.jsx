@@ -14,21 +14,27 @@ import initState from '../../src/store/initial.js';
 import App from '../../src/components/app.jsx';
 
 
-
 let pageContent = window.__init_state;
 
-let initialState = {
-  data: pageContent,
-  app: {
-    editor: true,
-    imgInsertId: null,
-    focus: null,
-    after: 1
+let initialState = null;
+
+if(pageContent){
+  initialState = {
+    data: pageContent,
+    app: {
+      editor: true,
+      imgInsertId: null,
+      focus: null,
+      after: 1
+    }
   }
+} else {
+  initialState = initState;
 }
 
 console.log(initialState);
 initialState = fromJS(initialState);
+
 
 
 let store = applyMiddleware(thunkMiddleware)(createStore)(reducer, initialState);

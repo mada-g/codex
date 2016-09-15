@@ -89,6 +89,7 @@
   color: black;
   font-style: normal;
   font-weight: normal;
+  text-decoration: none;
 
   font-family: "Dosis", "arial";
 
@@ -101,6 +102,15 @@
   &.h0{ font-size: 38px; }
   &.h1{ font-size: 33px; }
   &.h2{ font-size: 28px; }
+
+  a{
+    color: black;
+  }
+
+  sup{
+    display: none;
+    text-decoration: none;
+  }
 
   .textbox-content{
     // /border: 1px solid black;

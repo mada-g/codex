@@ -14,20 +14,9 @@ import App from '../../home/components/app.jsx';
 
 import '../../home/scss/x_style_home.scss';
 
-
 let userData = window.__init_state;
 
-console.log(userData);
-
-let initialState = {
-  data: userData
-}
-
-console.log(initialState);
-initialState = fromJS(initialState);
-
-
-//initialState = fromJS(initState);
+let initialState = userData ? fromJS({data: userData}) : fromJS(initState);
 
 let store = applyMiddleware(thunkMiddleware)(createStore)(reducer, initialState);
 

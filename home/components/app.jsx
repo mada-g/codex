@@ -20,7 +20,10 @@ class App extends React.Component{
 
   handleAddPage = () => {
     this.setState({visib: !this.state.visib});
-    this.props.createPage();
+    this.props.createPage().then((res) => {
+      if(!res.status) return;
+      window.location = "/editor/" + res.pageid;
+    });
   }
 
   render(){

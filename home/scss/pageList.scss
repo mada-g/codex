@@ -45,11 +45,23 @@
     color: grey;
   }
 
+
+
   .list-elem{
+    position: relative;
+    padding: 0;
+    margin: 20px 12px;
+    margin-top: 0;
+    display: inline-block;
+    &:hover{
+      background-color: black;
+    }
+    &:hover .page-title {color: white;}
+  }
+
+  .list-elem a{
     cursor: pointer;
     display: inline-block;
-    margin: 15px;
-    margin-top: 0;
     padding: 5px;
     //border: 1px solid black;
     box-sizing: border-box;
@@ -68,9 +80,77 @@
       color: grey;
     }
 
-    &:hover{
-      background-color: black;
-      color: white;
+  }
+}
+
+.list-elem .delete-bar{
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 50%;
+  display: none;
+  text-align: left;
+  font-size: 0;
+  padding: 5px 0;
+  z-index: 50;
+}
+
+.list-elem:hover .delete-bar{
+  display: block;
+}
+
+.delete-page-btn{
+  background-color: red;
+  display: inline-block;
+  img{
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+  }
+}
+
+
+.deleteDialogue{
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  font-family: "Josefin Sans", 'arial';
+
+  background-color: rgba(93, 93, 93, 0.85);
+  width: 100vw;
+  height: 100vh;
+  z-index: 100;
+
+  .dialogueBox{
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 15px;
+    border-radius: 6px;
+    border: 3px solid black;
+
+    .dialogueQuestion{
+      font-size: 20px;
+      margin: 10px;
+
+      .page-focus-title{
+        color: blue;
+        padding: 10px;
+      }
+    }
+
+    .dialogueAnswers-box{
+      .dialogueAnswer{
+        cursor: pointer;
+        display: inline-block;
+        font-size: 20px;
+        padding: 3px 7px;
+        margin: 10px;
+      }
     }
   }
 }
