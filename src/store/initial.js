@@ -7,7 +7,7 @@ export default {
     sections : ['title', 'img', 'title2'],
     items : {
       'title': {type:"title", content:"enter title", options: {align: "aligncenter"}},
-      'img' : {type:"img", content: "", src:"https://journalstore.s3.amazonaws.com/qqq_r1O6KjzT", options: {width: 350, height: 400}},
+      'img' : {type:"img", content: "", src:"https://journalstore.s3.amazonaws.com/qqq_r1O6KjzT", options: {size: 100, align: 'aligncenter', width: 350, height: 400}},
       'title2': {type:"text", content:"", options: {align: "alignleft"}}
     },
 
@@ -23,6 +23,8 @@ export default {
     editor: true,
     imgInsertId: null,
     focus: null,
-    after: 1
+    after: 1,
+
+    saving: false
   }
 }

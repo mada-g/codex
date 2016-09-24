@@ -20,9 +20,35 @@ import MediaSelect from './mediaSelect.jsx';
 import YoutubeItem from './youtubeItem.jsx';
 import MediaDisp from './MediaDisp.jsx';
 
+import extractHtmlData from '../utils/extractHtmlData.js';
+import {localDataSave, loadLocalData} from '../utils/saveData.js';
 import fetchTweet from '../utils/fetchTweet.js';
 
 class App extends React.Component{
+
+  componentDidMount = () => {
+
+  //  if(loadLocalData(this.props.data.pageid) !== null){
+      this.props.setLocalDataToken(true);
+  //  }
+
+    /*setInterval(() => {
+      extractHtmlData(this.props.data.sections, this.props.saveItemContent);
+      $('.btn-save').removeClass('save-success');
+      $('.btn-save').removeClass('save-fail');
+      $('.btn-save').addClass('saving');
+
+      this.props.saveData().then((res) => {
+        $('.btn-save').removeClass('saving');
+
+        if(res) $('.btn-save').addClass('save-success');
+        else $('.btn-save').addClass('save-fail');
+      })
+      extractHtmlData(this.props.data.sections, this.props.saveItemContent);
+      localDataSave(this.props.data.pageid, this.props.data);
+
+    }, 10000)*/
+  }
 
   handleOnFocus = (id) => {
     return () => {

@@ -27,23 +27,25 @@ export default class ImgDisp extends React.Component{
     let dimenClass = null;
     let s = null;
 
-    if(options.width >= options.height){
+    /*if(options.width >= options.height){
       dimenClass = "bigWidth";
-      s = null;
+      s = {width: `100%`, height:"auto"}
     }
     else{
       dimenClass = "";
-      s = {width: `${80*options.width/options.height}%`, height:"auto"}
-    }
+      s = {width: `${80*Math.round(options.width/options.height)}%`, height:"auto"}
+    }*/
+
+    s = {width: `${options.size}%`, height:"auto"}
 
     return <div className={`imgDisp ${this.props.componentId} ${this.isInFocus(this.props.focus)}`} onClick={this.props.handleClick} onFocus={this.props.handleClick} >
-      <div className={`img-container ${dimenClass}`}>
-        {this.props.src ? <img src={this.props.src} style={s} className={`${dimenClass}`}/> : null}
+      <div className={`img-container`}>
+        {this.props.src ? <img src={this.props.src} style={s}/> : null}
+        <div className={`img-label-container ${this.props.options.align}`}>
+          <div className="img-label" style={s}><div contentEditable className="textbox-content"></div></div>
+        </div>
       </div>
 
-      <div className="img-label">
-        <div contentEditable className="textbox-content"></div>
-      </div>
 
     </div>
   }

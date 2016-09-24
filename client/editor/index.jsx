@@ -25,7 +25,9 @@ if(pageContent){
       editor: true,
       imgInsertId: null,
       focus: null,
-      after: 1
+      after: 1,
+      saving: false,
+      hasLocalData: false
     }
   }
 } else {

@@ -44,6 +44,11 @@ export default class TextBox extends React.Component{
     $(`.${this.props.componentId} .textbox-content`).html(this.props.txt);
   }
 
+  componentDidUpdate(){
+    //this.setState({label: this.props.label});
+    $(`.${this.props.componentId} .textbox-content`).html(this.props.txt);
+  }
+
   render(){
     return <div className={`textbox-area ${this.props.componentId} ${this.props.size} ${this.props.alignment}`}>
       <div className="textbox-content" contentEditable onClick={this.handleChange}>

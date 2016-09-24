@@ -34,6 +34,16 @@ export default function(state = INIT_STATE, action){
 
   switch (action.type) {
 
+    case 'SET_PAGE_DATA': {
+      console.log('reducing...');
+      console.log(action.val);
+      return state.set('data', fromJS(action.val));
+    }
+
+    case 'LOCAL_DATA_TOKEN': {
+      return state.setIn(['app', 'hasLocalData'], action.val);
+    }
+
     case 'NEW_TEXT': {
       let val = action.val ? action.val : null;
       let newText = Map({type: "text", content: val, options: Map({align: "alignleft"}) });
@@ -94,7 +104,13 @@ export default function(state = INIT_STATE, action){
     case 'ADD_IMG': {
       if(!action.url || !action.dimen) return state;
 
-      let newImg = Map({type: "img", src: action.url, content: null, imgid: action.imgid, options: Map({width: action.dimen.width, height: action.dimen.height}) });
+      let _size = 100;
+
+      if(action.dimen.width < action.dimen.height){
+        _size = Math.round(100*action.dimen.width/action.dimen.height);
+      }
+
+      let newImg = Map({type: "img", src: action.url, content: null, imgid: action.imgid, options: Map({size: _size, align: 'aligncenter', width: action.dimen.width, height: action.dimen.height}) });
       return addID(action.after, state, action.prevID, action.componentId).setIn(['data', 'items', action.componentId], newImg);
     }
 
@@ -155,6 +171,10 @@ export default function(state = INIT_STATE, action){
       return state.setIn(['data', 'items', action.itemId, 'options', 'align'], action.val);
     }
 
+    case 'CHANGE_OPTION_IMG_SIZE': {
+      return state.setIn(['data', 'items', action.itemId, 'options', 'size'], action.val);
+    }
+
     case 'CHANGE_OPTION_SIZE': {
       return state.setIn(['data', 'items', action.itemId, 'options', 'size'], action.val);
     }
@@ -165,6 +185,18 @@ export default function(state = INIT_STATE, action){
 
     case 'CHANGE_OPTION_NUMBERING': {
       return state.setIn(['data', 'headingNumbering'], action.val);
+    }
+
+    case 'PUBLISH': {
+      return state.setIn(['data', 'published'], true);
+    }
+
+    case 'SAVING_START': {
+      return state.setIn(['app', 'saving'], true);
+    }
+
+    case 'SAVING_END': {
+      return state.setIn(['app', 'saving'], false);
     }
 
     default:

@@ -3,6 +3,9 @@ import $ from 'jquery';
 
 import {uploadToS3} from '../../utils/file-uploading.js';
 import {sendPageData, ajaxSendData, ajaxGetData} from '../../utils/saveData.js';
+import extractHtmlData from '../../utils/extractHtmlData.js'
+import {localDataSave, loadLocalData} from '../../utils/saveData.js'
+
 
 export function addItem(after, label, prevID, contentID, data){
   return function(dispatch){
@@ -113,6 +116,19 @@ export function selectImg(file, dimen, after, prevID, componentId){
       dispatch(closeImgSelectPage());
       return dispatch(clearImgInsertId());
     })
+  }
+}
+
+
+export function imgUpload_START(){
+  return {
+    type: 'IMG_UPLOAD_START'
+  }
+}
+
+export function imgUpload_END(){
+  return {
+    type: 'IMG_UPLOAD_END'
   }
 }
 
@@ -265,6 +281,18 @@ export function setImgBank(val){
   }
 }
 
+export function imgResize(itemId, val){
+  let _val = Math.round(val);
+  _val = _val > 0 ? _val : 0;
+  _val = _val < 100 ? _val : 100;
+
+  return {
+    type: 'CHANGE_OPTION_IMG_SIZE',
+    itemId,
+    val: _val
+  }
+}
+
 export function saveTitle(){
 
   let val = $('.title .textbox-content').text();
@@ -282,15 +310,68 @@ export function newPage(){
   }
 }
 
+
+export function saving_START(){
+  return {
+    type: 'SAVING_START'
+  }
+}
+
+export function saving_END(){
+  return {
+    type: 'SAVING_END'
+  }
+}
+
 export function saveData(){
   return function(dispatch, getState){
+    if(getState().getIn(['app', 'saving'])) return;
+
     dispatch(saveTitle());
     let data = getState().get('data').toJS();
     console.log('packing data...');
-    console.log(data);
-    ajaxSendData('/save', JSON.stringify(data)).then(console.log);
+  //  console.log(data);
+    dispatch(saving_START());
+
+    return ajaxSendData('/save', JSON.stringify(data)).then((res) => {
+      console.log("saved: " + res.status);
+      dispatch(saving_END());
+      return true;
+    }).catch((err) => {
+      console.log('caught error!');
+      dispatch(saving_END());
+      return false;
+    });
+
   }
 }
+
+export function setLocalDataToken(val){
+  return {
+    type: 'LOCAL_DATA_TOKEN',
+    val
+  }
+}
+
+export function publish(){
+  return {
+    type: 'PUBLISH'
+  }
+}
+
+export function setPageData(data){
+  console.log('data:::');
+  console.log(data);
+
+  if(data === null) return;
+
+  return {
+    type: "SET_PAGE_DATA",
+    val: data
+  }
+}
+
+
 
 export function fetchImgsData(){
   return function(dispatch, getState){
@@ -310,5 +391,22 @@ export function fetchImgsData(){
 export function fetchTweet(){
   return function(dispatch){
 
+  }
+}
+
+export function setLocalStorage(){
+  return function(dispatch, getState){
+    let _state = getState().toJS();
+    localDataSave(_state.data.pageid, _state.data);
+  }
+}
+
+export function localSave(_sections){
+  return function(dispatch, getState){
+    let _state = getState().toJS();
+    console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+    console.log(_state.data.items);
+    console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+    localDataSave(_state.data.pageid, _state.data);
   }
 }

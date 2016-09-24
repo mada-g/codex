@@ -5,6 +5,8 @@
   > .img-container{
     position: relative;
 
+
+
     img{
       display: block;
       margin: auto;
@@ -24,7 +26,14 @@
     }
   }
 
-  > .img-label{
+  .img-label-container{
+    &.alignleft {text-align: left;}
+    &.aligncenter {text-align: center;}
+    &.alignright {text-align: right;}
+  }
+  .img-label{
+    min-width: 200px;
+    margin: auto;
     background-color: lightgrey;
     padding: 10px;
     font-size: 17px;
@@ -36,6 +45,7 @@
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
-
+    //width: 100%;
   }
+
 }

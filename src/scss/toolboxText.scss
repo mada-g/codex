@@ -115,3 +115,21 @@
   font-family: 'Josefin Sans', 'arial';
   font-size: 16px;
 }
+
+
+.img-size-tool{
+  input{
+    display: inline-block;
+    padding: 3px 10px;
+    border: none;
+    color: black;
+    width: 30px;
+    font-size: 16px;
+    text-align: center;
+  }
+  .input-label{
+    display: inline-block;
+    padding: 0 3px;
+    font-size: 18px;
+  }
+}

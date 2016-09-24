@@ -28,8 +28,15 @@ export function ajaxSendData(url, data){
       contentType: 'application/json',
       url: url,
       data: data,
+      timeout: 180000,
       success: function(res){
+        console.log(res);
         resolve(res);
+      },
+      error: function(err){
+        console.log("error!!")
+        console.log(err);
+        reject(err);
       }
     });
 
@@ -44,6 +51,23 @@ export function ajaxGetData(url){
   })
 }
 
-export function localDataSave(data){
-  localStorage.setItem('pageData', data);
+export function localDataSave(pageid, data){
+  console.log('SAVING ITEMs::::::::::::::::::::::::::::::::::::::::::::::');
+  console.log(data.items);
+  console.log('::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::');
+
+  localStorage.setItem('pageData'+pageid, JSON.stringify(data));
+  console.log('local save!');
+}
+
+export function loadLocalData(pageid){
+  let pageData = localStorage.getItem('pageData'+pageid);
+
+  if(pageData) pageData = JSON.parse(pageData);
+
+  console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5");
+  console.log(pageData.items);
+  console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5");
+
+  return pageData;
 }

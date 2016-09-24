@@ -1,19 +1,78 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Map, List, toJS} from 'immutable';
+import $ from 'jquery';
 
 import * as actions from '../store/actions/index.js';
 
 import extractHtmlData from '../utils/extractHtmlData.js';
+import {localDataSave, loadLocalData} from '../utils/saveData.js';
 
 import ToolboxText from './toolboxText.jsx';
-
+import ToolboxImgSize from './toolboxImgSize.jsx';
 
 class Toolbar extends React.Component{
 
+  constructor(){
+    super();
+    this.state = {
+      btnsave: "",
+      btnpreview: "",
+      btnpublish: ""
+    }
+  }
+
   savePage = () => {
     extractHtmlData(this.props.data.sections, this.props.saveItemContent);
-    this.props.saveData();
+    this.setState({btnsave: "saving"})
+
+    this.props.saveData().then((res) => {
+      if(res) this.setState({btnsave: "save-success"});
+      else this.setState({btnsave: "save-fail"});
+    })
+  }
+
+  publishPage = () => {
+    this.props.publish();
+    extractHtmlData(this.props.data.sections, this.props.saveItemContent);
+    this.setState({btnpublish: "saving"})
+
+    this.props.saveData().then((res) => {
+      if(res) this.setState({btnpublish: "save-success"});
+      else this.setState({btnpublish: "save-fail"});
+    })
+  }
+
+  restoreLocalData = () => {
+    console.log('restoring...');
+    this.props.setPageData(loadLocalData(this.props.data.pageid));
+
+    console.log("THE TITLE::::: " + this.props.data.items.title.content);
+
+    this.props.setLocalDataToken(false);
+
+  }
+
+  localSave = () => {
+    //this.props.localSave(this.props.data.sections);
+
+    console.log('local save...');
+    extractHtmlData(this.props.data.sections, this.props.saveItemContent);
+    this.props.localSave();
+    //localDataSave(this.props.data.pageid, this.props.data);
+  }
+
+  renderRestorePage = () => {
+    if(this.props.app.hasLocalData){
+      return <div className="restore-page">
+        <div className="container">
+          <div className="close-restore-page" onClick={()=>{this.props.setLocalDataToken(false)}}><img src="/assets/icons/closegw.png"/></div>
+          <div className="restore-page-Q">restore unsaved data?</div>
+          <div className="restore-page-A"><div onClick={this.restoreLocalData}>restore</div></div>
+        </div>
+      </div>
+    }
+    else return null;
   }
 
   changeAlign = (focus, val) => {
@@ -64,8 +123,19 @@ class Toolbar extends React.Component{
     return <ToolboxText title="heading level" btns={sizes} btnStyle="heading-size-btn" />
   }
 
+  renderImgSize = (focus, size) => {
+    return <ToolboxImgSize focus={focus} imgResize={this.props.imgResize} size={size}/>
+  }
+
   renderTextTools = (focus, options) => {
     return [
+      this.renderAlignTools(focus, options.align)
+    ]
+  }
+
+  renderImgTools = (focus, options) => {
+    return [
+      this.renderImgSize(focus, options.size),
       this.renderAlignTools(focus, options.align)
     ]
   }
@@ -86,6 +156,9 @@ class Toolbar extends React.Component{
     if(item.type === 'text' || item.type === 'title'){
       return this.renderTextTools(focus, item.options);
     }
+    else if(item.type === 'img'){
+      return this.renderImgTools(focus, item.options);
+    }
     else if(item.type === "header"){
       return this.renderHeadingTools(focus, item.options);
     }
@@ -93,7 +166,8 @@ class Toolbar extends React.Component{
   }
 
   renderPageButton = (label, src, btnClick) => {
-    return <div className="toolbox page-toolbox">
+    let btnlabel = `btn${label}`;
+    return <div className={`toolbox page-toolbox btn-${label} ${this.state[btnlabel]}`}>
       <div className="toolbox-box">
         <div className="tool-title">
           {label}
@@ -108,8 +182,8 @@ class Toolbar extends React.Component{
   renderPageTools = () => {
     return [
       this.renderPageButton('save', 'upload.png', this.savePage),
-      this.renderPageButton('preview', 'eye.png', null),
-      this.renderPageButton('publish', 'newspaper.png', null)
+      this.renderPageButton('preview', 'eye.png', this.localSave),
+      this.renderPageButton('publish', 'newspaper.png', this.publishPage)
     ]
   }
 
@@ -132,6 +206,8 @@ class Toolbar extends React.Component{
         </div> : null}
 
       </div>
+
+      {this.renderRestorePage()}
 
     </div>
   }
