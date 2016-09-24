@@ -11,6 +11,10 @@ export default class Heading extends React.Component{
     $(`.${this.props.componentId} .textbox-content`).html(this.props.txt);
   }
 
+  isInFocus = (focus) => {
+    if(focus === this.props.componentId) return "inFocus";
+    else return "";
+  }
 
   formatLabel = (l, numbering) => {
     if(numbering === "none") return "";
@@ -75,7 +79,7 @@ export default class Heading extends React.Component{
   render(){
     let numbering = this.props.numbering;
     return <div className="heading" onClick={this.props.handleClick} onFocus={this.props.handleClick} >
-      <div className={`content ${this.props.componentId} ${this.props.options.size} ${this.props.options.align}`}>
+      <div className={`content ${this.props.componentId} ${this.props.options.size} ${this.props.options.align} ${this.isInFocus(this.props.focus)}`}>
         {this.renderLabel(this.props.options, numbering)}
         <div className={`headingInput`}>
           <div contentEditable className="textbox-content">title</div>

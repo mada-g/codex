@@ -6,7 +6,8 @@ export default function(sections, save){
 
   sections.forEach((item) => {
     let txt = $(`.${item} .textbox-content`).html();
-    save(item, txt);
+    console.log(txt);
+    if(txt) save(item, txt);
   })
 
   console.log('content extracted!');

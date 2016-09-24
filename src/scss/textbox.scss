@@ -91,7 +91,6 @@
   font-weight: normal;
   text-decoration: none;
 
-  font-family: "Dosis", "arial";
 
   &.alignleft {text-align: left;}
   &.aligncenter {text-align: center;}
@@ -99,9 +98,11 @@
 
   &.t0{ font-size: 18px; }
 
-  &.h0{ font-size: 38px; }
-  &.h1{ font-size: 33px; }
-  &.h2{ font-size: 28px; }
+  &.hx{ font-size: 48px; }
+
+  &.h0{ font-size: 35px; }
+  &.h1{ font-size: 30px; }
+  &.h2{ font-size: 25px; }
 
   a{
     color: black;

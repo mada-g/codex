@@ -18,7 +18,7 @@ class Item extends React.Component{
     );*/
 
     return <div className="item">
-      {(focus === this.props.componentId) ? <Add componentId={this.props.componentId} after={0} /> : null}
+      {(focus === this.props.componentId && this.props.componentId !== 'title') ? <Add componentId={this.props.componentId} after={0} /> : null}
       <div className="item-container">{this.props.children}</div>
       {(focus === this.props.componentId) ? <Add componentId={this.props.componentId} after={1} /> : null}
     </div>

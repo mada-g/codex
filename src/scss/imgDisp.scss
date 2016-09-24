@@ -15,10 +15,27 @@
       }
 
       &.bigHeight{
-        height: 65vh;
-        width: auto;
-        max-width: 100%;
+        //height: 65vh;
+        //width: auto;
+        //max-width: 100%;
+        width: 66%;
+        height: auto;
       }
     }
+  }
+
+  > .img-label{
+    background-color: lightgrey;
+    padding: 10px;
+    font-size: 17px;
+    font-family: 'Dosis', 'arial';
+    font-style: italic;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    box-sizing: border-box;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+
   }
 }

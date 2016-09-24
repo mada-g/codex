@@ -94,7 +94,7 @@ export default function(state = INIT_STATE, action){
     case 'ADD_IMG': {
       if(!action.url || !action.dimen) return state;
 
-      let newImg = Map({type: "img", src: action.url, imgid: action.imgid, options: Map({width: action.dimen.width, height: action.dimen.height}) });
+      let newImg = Map({type: "img", src: action.url, content: null, imgid: action.imgid, options: Map({width: action.dimen.width, height: action.dimen.height}) });
       return addID(action.after, state, action.prevID, action.componentId).setIn(['data', 'items', action.componentId], newImg);
     }
 

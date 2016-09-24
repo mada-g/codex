@@ -11,6 +11,12 @@ export default class PageList extends React.Component{
     }
   }
 
+  reqDelete = () => {
+    this.props.deletePage(this.state.pageFocusId).then(() => {
+        this.setState({dialogue: false, pageFocusId: null, pageFocusTitle: null})
+      })
+  }
+
   handleDeletePage = (id, title) => {
     return () => {
       this.setState({dialogue: true, pageFocusId: id, pageFocusTitle: title});
@@ -26,7 +32,7 @@ export default class PageList extends React.Component{
           <div className="page-focus-title">{this.state.pageFocusTitle} ?</div>
         </div>
         <div className="dialogueAnswers-box">
-          <div className="dialogueAnswer">Yes</div>
+          <div className="dialogueAnswer" onClick={this.reqDelete}>Yes</div>
           <div className="dialogueAnswer" onClick={() => {this.setState({dialogue:false, pageFocusId:null, pageFocusTitle: null})}}>
             Cancel
           </div>

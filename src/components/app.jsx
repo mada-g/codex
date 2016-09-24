@@ -55,10 +55,13 @@ class App extends React.Component{
         itemComp = <Section componentId={id} options={options} txt={content} focus={focus} handleClick={this.handleOnFocus(id)} />;
       }
       else if(type === "header"){
-        itemComp = <Heading componentId={id} options={options} txt={content} numbering={this.props.data.headingNumbering} txt={content} handleClick={this.handleOnFocus(id)} />
+        itemComp = <Heading componentId={id} options={options} txt={content} focus={focus} numbering={this.props.data.headingNumbering} txt={content} handleClick={this.handleOnFocus(id)} />
       }
       else if(type === "img"){
-        itemComp = <ImgDisp componentId={id} src={item.src} options={options} handleClick={this.handleOnFocus(id)} />
+        itemComp = <ImgDisp componentId={id} src={item.src} txt={content} options={options} focus={focus} handleClick={this.handleOnFocus(id)} />
+      }
+      else if(type === "title"){
+        itemComp = <Title componentId={id} options={options} txt={content} focus={focus} handleClick={this.handleOnFocus(id)} />
       }
       else if(type === "youtube"){
         itemComp = this.renderMediaDisp(id, options, 'enter youtube link', "watch?v=", "https://www.youtube.com/embed", this.props.change_OPTION_src, this.handleOnFocus(id))

@@ -1,9 +1,9 @@
 <!doctype html>
 <html>
 <head>
-    <title>Codex // Madalinski</title>
+    <title>codex // georges madalinski</title>
     <link href="https://fonts.googleapis.com/css?family=Righteous|Coda|Raleway|Dosis|Josefin+Sans|Quicksand" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="style_identification.css"/>
+    <link rel="stylesheet" type="text/css" href="/assets/style_identification.css"/>
 
 </head>
 <body>
@@ -19,10 +19,15 @@
 
 <div class="container">
 
-    <div class="title">Login</div>
+    <div class="title">{{{title}}}</div>
 
+    <div class="status-msg">
+      <div>
+        {{{status}}}
+      </div>
+    </div>
 
-    <form action="/login" method="post">
+    <form action={{{postURL}}} method="post">
         <div class="form-container">
             <div class="label">Username</div>
             <input type="text" class="form-input" name="username">
@@ -32,10 +37,10 @@
             <input type="password" class="form-input" name="password">
         </div>
 
-        <button type="submit" class="form-btn">Login</button>
+        <button type="submit" class="form-btn">{{{title}}}</button>
     </form>
 
-    <div class="alt-btn">create account</div>
+    <div class="alt-btn"><a href={{{altRoute}}}>{{{altLabel}}}</a></div>
 
 </div>
 

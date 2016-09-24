@@ -83,7 +83,7 @@ class Toolbar extends React.Component{
 
     let item = this.props.data.items[focus];
 
-    if(item.type === 'text'){
+    if(item.type === 'text' || item.type === 'title'){
       return this.renderTextTools(focus, item.options);
     }
     else if(item.type === "header"){

@@ -25,15 +25,15 @@ function requestSignature(name, type, dimen, pageid){
 }
 
 
-function sendFile(file, req, url, id){
+function sendFile(file, data){
   return new Promise((resolve, reject)=>{
     var xhr = new XMLHttpRequest();
 
-    xhr.open('PUT', req);
+    xhr.open('PUT', data.signedRequest);
     xhr.onreadystatechange = function(){
       if(xhr.readyState === 4){
         if(xhr.status === 200){
-          resolve({url:url, imgid:id});
+          resolve(data);
         }
         else{
           reject('Could not upload file.');
@@ -51,9 +51,10 @@ function confirmUpload(data, pageid){
       let parsedRes = JSON.parse(res);
       console.log('++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
       console.log(parsedRes);
+      console.log(data);
       console.log('++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
       if(parsedRes['status'])
-        resolve(parsedRes['imgData']);
+        resolve(data);
       else
         reject(parsedRes);
     });
@@ -65,6 +66,7 @@ export function uploadToS3(file, dimen, pageid){
   console.log('uploading...');
   return requestSignature(file.name, file.type, dimen, pageid)
     //.then(response => {return JSON.parse(response)})
-    .then((data) => {return sendFile(file, data.signedRequest, data.url, data.id)})
-    .then((data) => {return confirmUpload(data, pageid)})
+//    .then((data) => {return sendFile(file, data.signedRequest, data.url, data.id)})
+    .then((data) => {return sendFile(file, data)})
+    .then((data) => {return confirmUpload({imgid: data.id, url: data.url, dimen: dimen}, pageid)})
 }

@@ -33,10 +33,10 @@ class App extends React.Component{
 
       <div className={`allPages group ${this.state.visib ? 'visib' : 'no-visib'}`}>
         <div className="list left-list">
-          <PageList pages={this.props.data.drafts} title="drafts" side="left"/>
+          <PageList pages={this.props.data.drafts} title="drafts" side="left" deletePage={this.props.deletePage} removePageInfo={this.props.removePageInfo}/>
         </div>
         <div className="list right-list">
-          <PageList pages={this.props.data.published} title="published" side="right"/>
+          <PageList pages={this.props.data.published} title="published" side="right" deletePage={this.props.deletePage} removePageInfo={this.props.removePageInfo}/>
         </div>
       </div>
 
