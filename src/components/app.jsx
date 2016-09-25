@@ -26,32 +26,41 @@ import fetchTweet from '../utils/fetchTweet.js';
 
 class App extends React.Component{
 
+  constructor(){
+    super();
+    this.state= {
+      localsaving: false
+    };
+  }
+
+  shouldComponentUpdate = (nextProps, nextState) => {
+    console.log('localsaving ??? ' + nextProps.app.localsaving);
+
+    if(nextProps.app.localsaving) return false;
+    else return true;
+  }
+
   componentDidMount = () => {
 
-  //  if(loadLocalData(this.props.data.pageid) !== null){
+    if(loadLocalData(this.props.data.pageid) !== null){
       this.props.setLocalDataToken(true);
-  //  }
+    }
 
-    /*setInterval(() => {
-      extractHtmlData(this.props.data.sections, this.props.saveItemContent);
-      $('.btn-save').removeClass('save-success');
-      $('.btn-save').removeClass('save-fail');
-      $('.btn-save').addClass('saving');
-
-      this.props.saveData().then((res) => {
-        $('.btn-save').removeClass('saving');
-
-        if(res) $('.btn-save').addClass('save-success');
-        else $('.btn-save').addClass('save-fail');
-      })
-      extractHtmlData(this.props.data.sections, this.props.saveItemContent);
-      localDataSave(this.props.data.pageid, this.props.data);
-
-    }, 10000)*/
+    setInterval(() => {
+      //console.log('hasLocalData ??? ' + this.props.app.hasLocalData);
+      if(!this.props.app.hasLocalData){
+        extractHtmlData(this.props.data.sections, this.props.saveItemContent);
+        this.props.localSave();
+        console.log('?????????????????????????????????????????????????????????');
+      } else {
+        console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^');
+      }
+    }, 10000)
   }
 
   handleOnFocus = (id) => {
     return () => {
+      console.log('focusing: ' + id);
       this.props.focusOnItem(id);
       $(`.${id} .textbox-content`).focus();
     }
@@ -67,7 +76,7 @@ class App extends React.Component{
   }
 
   renderContent = () => {
-    console.log(this.props.data.sections);
+    //console.log(this.props.data.sections);
     return this.props.data.sections.map((id) => {
       const item = this.props.data.items[id];
       const type = item.type;
@@ -125,22 +134,10 @@ class App extends React.Component{
     }
   }
 
-  /*render(){
-    return <div className="app">
-      <ImgDisp src={this.props.data.img}/>
-      <FileUpload uploadFile={this.props.uploadFile}/>
-    </div>
-  }*/
-
   handleSwitchClick = () => {
     this.props.saveData();
-    //this.props.switchPage();
   }
-/*
-  <div className="switch-editor" onClick={this.handleSwitchClick}>
-    switch
-  </div>
-*/
+
   render(){
     return <div>
       <Toolbar focusItem={this.props.app.focus}>

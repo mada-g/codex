@@ -25,6 +25,7 @@ export default {
     focus: null,
     after: 1,
 
-    saving: false
+    saving: false,
+    localsaving: false
   }
 }

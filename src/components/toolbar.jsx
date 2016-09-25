@@ -22,25 +22,26 @@ class Toolbar extends React.Component{
     }
   }
 
-  savePage = () => {
-    extractHtmlData(this.props.data.sections, this.props.saveItemContent);
-    this.setState({btnsave: "saving"})
+  savePage = (label) => {
+    return () => {
+      extractHtmlData(this.props.data.sections, this.props.saveItemContent);
 
-    this.props.saveData().then((res) => {
-      if(res) this.setState({btnsave: "save-success"});
-      else this.setState({btnsave: "save-fail"});
-    })
+      $(`.btn-${label}`).removeClass('save-success');
+      $(`.btn-${label}`).removeClass('save-fail');
+      $(`.btn-${label}`).addClass('saving');
+
+      this.props.saveData().then((res) => {
+        $(`.btn-${label}`).removeClass('saving');
+
+        if(res) $(`.btn-${label}`).addClass('save-success');
+        else $(`.btn-${label}`).addClass('save-fail');
+      })
+    }
   }
 
   publishPage = () => {
     this.props.publish();
-    extractHtmlData(this.props.data.sections, this.props.saveItemContent);
-    this.setState({btnpublish: "saving"})
-
-    this.props.saveData().then((res) => {
-      if(res) this.setState({btnpublish: "save-success"});
-      else this.setState({btnpublish: "save-fail"});
-    })
+    this.savePage('publish')();
   }
 
   restoreLocalData = () => {
@@ -166,8 +167,7 @@ class Toolbar extends React.Component{
   }
 
   renderPageButton = (label, src, btnClick) => {
-    let btnlabel = `btn${label}`;
-    return <div className={`toolbox page-toolbox btn-${label} ${this.state[btnlabel]}`}>
+    return <div className={`toolbox page-toolbox btn-${label}`}>
       <div className="toolbox-box">
         <div className="tool-title">
           {label}
@@ -181,7 +181,7 @@ class Toolbar extends React.Component{
 
   renderPageTools = () => {
     return [
-      this.renderPageButton('save', 'upload.png', this.savePage),
+      this.renderPageButton('save', 'upload.png', this.savePage('save')),
       this.renderPageButton('preview', 'eye.png', this.localSave),
       this.renderPageButton('publish', 'newspaper.png', this.publishPage)
     ]

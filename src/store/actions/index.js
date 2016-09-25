@@ -9,6 +9,8 @@ import {localDataSave, loadLocalData} from '../../utils/saveData.js'
 
 export function addItem(after, label, prevID, contentID, data){
   return function(dispatch){
+    dispatch(setLocalSaving(false));
+
     if(label === "text"){
       dispatch(addText(after, "", prevID, contentID));
     }
@@ -112,6 +114,7 @@ export function selectImg(file, dimen, after, prevID, componentId){
     return uploadToS3(file, dimen, pageid).then((data) => {
       console.log("url: " + data.url);
       console.log("dimen valid: " + data.dimen)
+      dispatch(setLocalSaving(false));
       dispatch(addImg(after, data, prevID, componentId));
       dispatch(closeImgSelectPage());
       return dispatch(clearImgInsertId());
@@ -213,8 +216,10 @@ export function deleteItem(itemId){
 
 export function deleteItemInFocus(){
   return function(dispatch, getState){
+    dispatch(setLocalSaving(false));
     let itemInFocus = getState().getIn(['app', 'focus']);
     if(!itemInFocus) return;
+    console.log('item in focus: ' + itemInFocus);
 
     let type = getState().getIn(['data', 'items', itemInFocus, 'type']);
     if(type === 'header'){
@@ -268,6 +273,7 @@ export function change_OPTION_numbering(val){
 
 export function selectImgFromBank(data, after, prevID, componentId){
   return function(dispatch){
+    dispatch(setLocalSaving(false));
     dispatch(closeImgSelectPage());
     dispatch(addImg(after, data, prevID, componentId))
     dispatch(clearImgInsertId());
@@ -394,6 +400,13 @@ export function fetchTweet(){
   }
 }
 
+export function setLocalSaving(val){
+  return {
+    type: 'SET_LOCAL_SAVING',
+    val
+  }
+}
+
 export function setLocalStorage(){
   return function(dispatch, getState){
     let _state = getState().toJS();
@@ -403,10 +416,8 @@ export function setLocalStorage(){
 
 export function localSave(_sections){
   return function(dispatch, getState){
+    dispatch(setLocalSaving(true));
     let _state = getState().toJS();
-    console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-    console.log(_state.data.items);
-    console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
     localDataSave(_state.data.pageid, _state.data);
   }
 }

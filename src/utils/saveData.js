@@ -52,10 +52,6 @@ export function ajaxGetData(url){
 }
 
 export function localDataSave(pageid, data){
-  console.log('SAVING ITEMs::::::::::::::::::::::::::::::::::::::::::::::');
-  console.log(data.items);
-  console.log('::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::');
-
   localStorage.setItem('pageData'+pageid, JSON.stringify(data));
   console.log('local save!');
 }
@@ -63,11 +59,7 @@ export function localDataSave(pageid, data){
 export function loadLocalData(pageid){
   let pageData = localStorage.getItem('pageData'+pageid);
 
-  if(pageData) pageData = JSON.parse(pageData);
+  if(pageData === null || pageData === undefined) return null;
 
-  console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5");
-  console.log(pageData.items);
-  console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5");
-
-  return pageData;
+  return JSON.parse(pageData);
 }
