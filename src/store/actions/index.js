@@ -416,8 +416,15 @@ export function setLocalStorage(){
 
 export function localSave(_sections){
   return function(dispatch, getState){
-    dispatch(setLocalSaving(true));
     let _state = getState().toJS();
     localDataSave(_state.data.pageid, _state.data);
+    dispatch(setLocalSaving(true));
+  }
+}
+
+export function setLocalSaveInProg(val){
+  return {
+    type: 'LOCAL_SAVE_IN_PROG',
+    val
   }
 }

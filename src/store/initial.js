@@ -26,6 +26,7 @@ export default {
     after: 1,
 
     saving: false,
-    localsaving: false
+    localsaving: false,
+    localSaveInProg: false
   }
 }

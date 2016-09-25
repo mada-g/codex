@@ -209,7 +209,11 @@ export default function(state = INIT_STATE, action){
     }
 
     case 'SET_LOCAL_SAVING': {
-      return state.setIn(['app', 'localsaving'], action.val).setIn(['app', 'localsaving'], true);
+      return state.setIn(['app', 'localsaving'], action.val);
+    }
+
+    case 'LOCAL_SAVE_IN_PROG': {
+      return state.setIn(['app', 'localSaveInProg'], action.val).setIn(['app', 'localsaving'], true);
     }
 
     default:

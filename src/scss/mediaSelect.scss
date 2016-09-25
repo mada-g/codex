@@ -37,13 +37,21 @@
 
 
 .yt-box{
-  width: 622px;
-  height: 348px;
+  width: 53vw;
+  height: 30vw;
+
+  min-width: 320px;
+  min-height: 180px;
+  //width: 622px;
+  //height: 348px;
 }
 
 .codepen-box{
-  width: 700px;
-  height: 315px;
+  width: 53vw;
+  height: 30vw;
+
+  min-width: 320px;
+  min-height: 180px;
   //height: 348px;
 }
 

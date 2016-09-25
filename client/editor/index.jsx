@@ -27,6 +27,7 @@ if(pageContent){
       focus: null,
       after: 1,
       saving: false,
+      localsaving: false,
       hasLocalData: false
     }
   }

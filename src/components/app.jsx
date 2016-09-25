@@ -38,6 +38,7 @@ class App extends React.Component{
 
     if(nextProps.app.localsaving) return false;
     else return true;
+
   }
 
   componentDidMount = () => {
@@ -46,21 +47,25 @@ class App extends React.Component{
       this.props.setLocalDataToken(true);
     }
 
+
     setInterval(() => {
-      //console.log('hasLocalData ??? ' + this.props.app.hasLocalData);
       if(!this.props.app.hasLocalData){
+        this.props.setLocalSaving(true);
+
         extractHtmlData(this.props.data.sections, this.props.saveItemContent);
         this.props.localSave();
+        this.props.setLocalSaving(true);
+
         console.log('?????????????????????????????????????????????????????????');
+
       } else {
         console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^');
       }
-    }, 10000)
+    }, 120000)
   }
 
   handleOnFocus = (id) => {
     return () => {
-      console.log('focusing: ' + id);
       this.props.focusOnItem(id);
       $(`.${id} .textbox-content`).focus();
     }
