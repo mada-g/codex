@@ -6,7 +6,7 @@ import $ from 'jquery';
 import * as actions from '../store/actions/index.js';
 
 import extractHtmlData from '../utils/extractHtmlData.js';
-import {localDataSave, loadLocalData} from '../utils/saveData.js';
+import {localDataSave, loadLocalData, deleteLocalData} from '../utils/saveData.js';
 
 import ToolboxText from './toolboxText.jsx';
 import ToolboxImgSize from './toolboxImgSize.jsx';
@@ -50,17 +50,22 @@ class Toolbar extends React.Component{
 
     console.log("THE TITLE::::: " + this.props.data.items.title.content);
 
-    this.props.setLocalDataToken(false);
+    deleteLocalData(this.props.data.pageid);
 
+    this.props.setLocalDataToken(false);
   }
 
   localSave = () => {
     //this.props.localSave(this.props.data.sections);
-
     console.log('local save...');
     extractHtmlData(this.props.data.sections, this.props.saveItemContent);
     this.props.localSave();
     //localDataSave(this.props.data.pageid, this.props.data);
+  }
+
+  homeClick = () => {
+    this.localSave();
+    window.location = "/home.html";
   }
 
   renderRestorePage = () => {
@@ -192,7 +197,7 @@ class Toolbar extends React.Component{
 
       <div className="tool-sect page-tools">
         <div className="toolbox">
-          <div className="toolbox-box app-title">codex</div>
+          <div className="toolbox-box app-title" onClick={this.homeClick}>codex</div>
         </div>
         {this.renderPageTools()}
       </div>

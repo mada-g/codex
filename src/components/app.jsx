@@ -28,19 +28,16 @@ class App extends React.Component{
 
   constructor(){
     super();
-    this.state= {
-      localsaving: false
-    };
   }
 
-  shouldComponentUpdate = (nextProps, nextState) => {
+/*  shouldComponentUpdate = (nextProps, nextState) => {
     console.log('localsaving ??? ' + nextProps.app.localsaving);
 
     if(nextProps.app.localsaving) return false;
     else return true;
 
   }
-
+*/
   componentDidMount = () => {
 
     if(loadLocalData(this.props.data.pageid) !== null){
@@ -48,7 +45,7 @@ class App extends React.Component{
     }
 
 
-    setInterval(() => {
+  /*  setInterval(() => {
       if(!this.props.app.hasLocalData){
         this.props.setLocalSaving(true);
 
@@ -61,7 +58,7 @@ class App extends React.Component{
       } else {
         console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^');
       }
-    }, 120000)
+    }, 120000)*/
   }
 
   handleOnFocus = (id) => {

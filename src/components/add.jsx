@@ -25,7 +25,6 @@ class Add extends React.Component{
 
   handleSwitch = () => {
     extractHtmlData(this.props.data.sections, this.props.saveItemContent);
-    this.props.setLocalSaving(false);
     this.props.openImgSelectPage(this.props.componentId, this.props.after);
   }
 

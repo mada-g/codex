@@ -37,7 +37,7 @@ export default function(state = INIT_STATE, action){
     case 'SET_PAGE_DATA': {
       console.log('reducing...');
       console.log(action.val);
-      return state.set('data', fromJS(action.val)).setIn(['app', 'localsaving'], false);
+      return state.set('data', fromJS(action.val))
     }
 
     case 'LOCAL_DATA_TOKEN': {
@@ -47,7 +47,7 @@ export default function(state = INIT_STATE, action){
     case 'NEW_TEXT': {
       let val = action.val ? action.val : null;
       let newText = Map({type: "text", content: val, options: Map({align: "alignleft"}) });
-      return addID(action.after, state, action.prevID, action.contentID).setIn(['data', 'items', action.contentID], newText).setIn(['app', 'localsaving'], false);
+      return addID(action.after, state, action.prevID, action.contentID).setIn(['data', 'items', action.contentID], newText)
     }
 
     case 'NEW_HEADER': {
@@ -58,7 +58,7 @@ export default function(state = INIT_STATE, action){
       let newHeader = Map({type: "header", content: val, options: Map({align: "alignleft", size: action.size, level: null}) });
       let newState = addID(action.after, state, action.prevID, action.contentID)
       return addHeadingID(newState, closestHeading, action.contentID)
-              .setIn(['data', 'items', action.contentID], newHeader).setIn(['app', 'localsaving'], false);
+              .setIn(['data', 'items', action.contentID], newHeader)
     }
 
     case 'COMPUTE_HEADING_LEVELS': {
@@ -88,18 +88,18 @@ export default function(state = INIT_STATE, action){
         newState = newState.setIn(['data', 'items', headings[i], 'options', 'level'], List([l1,l2,l3]));
       }
 
-      return newState.setIn(['app', 'localsaving'], false);
+      return newState
     }
 
     case 'DELETE_ITEM': {
       if(action.itemId === 'title') return state;
       return state.updateIn(['data', 'sections'], val => val.filter(k => k !== action.itemId))
                   .updateIn(['data', 'items'], val => val.delete(action.itemId))
-                  .setIn(['app', 'localsaving'], false);
+
     }
 
     case 'DELETE_HEADING': {
-      return state.updateIn(['data', 'headings'], val => val.filter(k => k !== action.itemId)).setIn(['app', 'localsaving'], false);
+      return state.updateIn(['data', 'headings'], val => val.filter(k => k !== action.itemId))
     }
 
     case 'ADD_IMG': {
@@ -112,17 +112,17 @@ export default function(state = INIT_STATE, action){
       }
 
       let newImg = Map({type: "img", src: action.url, content: null, imgid: action.imgid, options: Map({size: _size, align: 'aligncenter', width: action.dimen.width, height: action.dimen.height}) });
-      return addID(action.after, state, action.prevID, action.componentId).setIn(['data', 'items', action.componentId], newImg).setIn(['app', 'localsaving'], false);
+      return addID(action.after, state, action.prevID, action.componentId).setIn(['data', 'items', action.componentId], newImg)
     }
 
     case 'ADD_MEDIA': {
       let newMedia = Map({type: action.mediaType, options: Map({disp: false, src: null}) });
-      return addID(action.after, state, action.prevID, action.contentID).setIn(['data', 'items', action.contentID], newMedia).setIn(['app', 'localsaving'], false);
+      return addID(action.after, state, action.prevID, action.contentID).setIn(['data', 'items', action.contentID], newMedia)
     }
 
     case 'ADD_YOUTUBE': {
       let newYT = Map({type: "youtube", options: Map({disp: false, src: null}) });
-      return addID(action.after, state, action.prevID, action.contentID).setIn(['data', 'items', action.contentID], newYT).setIn(['app', 'localsaving'], false);
+      return addID(action.after, state, action.prevID, action.contentID).setIn(['data', 'items', action.contentID], newYT)
     }
 
     case 'SET_IMG': {
@@ -135,7 +135,7 @@ export default function(state = INIT_STATE, action){
 
     case 'SET_IMG_BANK': {
       return state.setIn(['data', 'imgsData'], action.val)
-                  .setIn(['app', 'localsaving'], false);
+
     }
 
     case 'OPEN_IMAGE_SELECT_PAGE': {
@@ -143,12 +143,11 @@ export default function(state = INIT_STATE, action){
                   .setIn(['app', 'imgInsertId'], action.componentId)
                   .setIn(['app', 'after'], action.after)
                   .setIn(['app', 'focus'], null)
-                  .setIn(['app', 'localsaving'], false);
+
     }
 
     case 'CLOSE_IMG_SELECT_PAGE': {
-      return state.setIn(['app', 'editor'], true)
-                  .setIn(['app', 'localsaving'], false)
+      return state.setIn(['app', 'editor'], true);
     }
 
     case 'CLEAR_IMG_INSERT_ID': {
@@ -161,7 +160,7 @@ export default function(state = INIT_STATE, action){
 
     case 'FOCUS_ON_ITEM': {
       return state.setIn(['app', 'focus'], action.itemId)
-                  .setIn(['app', 'localsaving'], false);
+
     }
 
     case 'SAVE_TITLE': {
@@ -174,26 +173,26 @@ export default function(state = INIT_STATE, action){
 
     case 'CHANGE_OPTION_ALIGNMENT': {
       return state.setIn(['data', 'items', action.itemId, 'options', 'align'], action.val)
-                  .setIn(['app', 'localsaving'], false);
+
     }
 
     case 'CHANGE_OPTION_IMG_SIZE': {
       return state.setIn(['data', 'items', action.itemId, 'options', 'size'], action.val)
-                  .setIn(['app', 'localsaving'], false);
+
     }
 
     case 'CHANGE_OPTION_SIZE': {
       return state.setIn(['data', 'items', action.itemId, 'options', 'size'], action.val)
-                  .setIn(['app', 'localsaving'], false);
+
     }
 
     case 'CHANGE_OPTION_SRC': {
       return state.setIn(['data', 'items', action.itemId, 'options', 'src'], action.val)
-                  .setIn(['app', 'localsaving'], false);
+
     }
 
     case 'CHANGE_OPTION_NUMBERING': {
-      return state.setIn(['data', 'headingNumbering'], action.val).setIn(['app', 'localsaving'], false);
+      return state.setIn(['data', 'headingNumbering'], action.val)
     }
 
     case 'PUBLISH': {
@@ -210,10 +209,6 @@ export default function(state = INIT_STATE, action){
 
     case 'SET_LOCAL_SAVING': {
       return state.setIn(['app', 'localsaving'], action.val);
-    }
-
-    case 'LOCAL_SAVE_IN_PROG': {
-      return state.setIn(['app', 'localSaveInProg'], action.val).setIn(['app', 'localsaving'], true);
     }
 
     default:

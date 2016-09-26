@@ -52,14 +52,24 @@ export function ajaxGetData(url){
 }
 
 export function localDataSave(pageid, data){
+  if(!localStorage) return;
+
   localStorage.setItem('pageData'+pageid, JSON.stringify(data));
   console.log('local save!');
 }
 
 export function loadLocalData(pageid){
+  if(!localStorage) return null;
+
   let pageData = localStorage.getItem('pageData'+pageid);
 
   if(pageData === null || pageData === undefined) return null;
 
   return JSON.parse(pageData);
+}
+
+export function deleteLocalData(pageid){
+  if(!localStorage) return null;
+  localStorage.removeItem('pageData'+pageid);
+  return true;
 }

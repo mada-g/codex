@@ -44,9 +44,11 @@ export default class TextBox extends React.Component{
     $(`.${this.props.componentId} .textbox-content`).html(this.props.txt);
   }
 
-  componentDidUpdate(){
+  componentDidUpdate(prevProps, prevState){
     //this.setState({label: this.props.label});
-    $(`.${this.props.componentId} .textbox-content`).html(this.props.txt);
+    if(prevProps.txt !== this.props.txt){
+      $(`.${this.props.componentId} .textbox-content`).html(this.props.txt);
+    }
   }
 
   render(){
