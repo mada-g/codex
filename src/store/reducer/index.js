@@ -46,7 +46,7 @@ export default function(state = INIT_STATE, action){
 
     case 'NEW_TEXT': {
       let val = action.val ? action.val : null;
-      let newText = Map({type: "text", content: val, options: Map({align: "alignleft"}) });
+      let newText = Map({type: "text", content: val, options: Map({align: "alignleft", size: 100}) });
       return addID(action.after, state, action.prevID, action.contentID).setIn(['data', 'items', action.contentID], newText)
     }
 

@@ -44,6 +44,19 @@ class Toolbar extends React.Component{
     this.savePage('publish')();
   }
 
+  previewPage = () => {
+    //window.location = `/preview/${this.props.data.pageid}`;
+    extractHtmlData(this.props.data.sections, this.props.saveItemContent);
+    this.props.saveData().then((res) => {
+      if(res){
+        let win = window.open(`/preview/${this.props.data.pageid}`);
+        if(win) win.focus();
+        else window.location = `/preview/${this.props.data.pageid}`;
+      }
+    })
+
+  }
+
   restoreLocalData = () => {
     console.log('restoring...');
     this.props.setPageData(loadLocalData(this.props.data.pageid));
@@ -65,7 +78,7 @@ class Toolbar extends React.Component{
 
   homeClick = () => {
     this.localSave();
-    window.location = "/home.html";
+    window.location = "/editor";
   }
 
   renderRestorePage = () => {
@@ -135,6 +148,7 @@ class Toolbar extends React.Component{
 
   renderTextTools = (focus, options) => {
     return [
+      this.renderImgSize(focus, options.size),
       this.renderAlignTools(focus, options.align)
     ]
   }
@@ -187,7 +201,7 @@ class Toolbar extends React.Component{
   renderPageTools = () => {
     return [
       this.renderPageButton('save', 'upload.png', this.savePage('save')),
-      this.renderPageButton('preview', 'eye.png', this.localSave),
+      this.renderPageButton('preview', 'eye.png', this.previewPage),
       this.renderPageButton('publish', 'newspaper.png', this.publishPage)
     ]
   }

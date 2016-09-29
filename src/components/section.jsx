@@ -11,7 +11,10 @@ export default class Section extends React.Component{
   }
 
   render(){
-    return <div className='section' onClick={this.props.handleClick} onFocus={this.props.handleClick} >
+
+    let s = {width: `${this.props.options.size}%`};
+
+    return <div className='section' style={s} onClick={this.props.handleClick} onFocus={this.props.handleClick} >
       <div className={`container ${this.isInFocus(this.props.focus)}`}>
         <TextBox size="t0" componentId={this.props.componentId} txt={this.props.txt} alignment={this.props.options.align}/>
       </div>
