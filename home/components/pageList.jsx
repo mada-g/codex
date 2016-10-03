@@ -20,7 +20,6 @@ export default class PageList extends React.Component{
   handleDeletePage = (id, title) => {
     return () => {
       this.setState({dialogue: true, pageFocusId: id, pageFocusTitle: title});
-      console.log('delete ' + id);
     }
   }
 
@@ -31,12 +30,15 @@ export default class PageList extends React.Component{
           <div>Are you sure you want to delete</div>
           <div className="page-focus-title">{this.state.pageFocusTitle} ?</div>
         </div>
-        <div className="dialogueAnswers-box">
+
+        {this.props.deletingpage ? <div className="dialogue-deleting-prog"><img src="/assets/icons/rolling.gif"/></div>
+        : <div className="dialogueAnswers-box">
           <div className="dialogueAnswer" onClick={this.reqDelete}>Yes</div>
           <div className="dialogueAnswer" onClick={() => {this.setState({dialogue:false, pageFocusId:null, pageFocusTitle: null})}}>
             Cancel
           </div>
-        </div>
+        </div>}
+
       </div>
     </div>
   }
@@ -51,7 +53,7 @@ export default class PageList extends React.Component{
 
     return pages.map((p) => {
       return <div className="list-elem">
-        <a href={`/editor/${p.pageid}`}>
+        <a href={`/codex/editor/${p.pageid}`}>
           <div className="page-title">{p.title}</div>
           <div className="page-details">{p.details}</div>
         </a>

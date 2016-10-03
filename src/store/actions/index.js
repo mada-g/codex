@@ -59,7 +59,6 @@ export function insertHeader(after, txt, size, prevID, contentID){
   return function(dispatch, getState){
     dispatch(addHeader(after, txt, size, prevID, contentID));
     dispatch(computeHeadingLevels());
-    console.log(getState().toJS())
   }
 }
 
@@ -106,17 +105,30 @@ export function addImg(after, data, prevID, componentId){
   }
 }
 
+export function uploadingInProg(){
+  return {
+    type: 'UPLOADING_IN_PROG'
+  }
+}
+
+export function uploadingEnded(){
+  return {
+    type: 'UPLOADING_ENDED'
+  }
+}
+
 export function selectImg(file, dimen, after, prevID, componentId){
   return function(dispatch, getState){
     const pageid = getState().getIn(['data', 'pageid']);
 
+    dispatch(uploadingInProg());
+
     return uploadToS3(file, dimen, pageid).then((data) => {
-      console.log("url: " + data.url);
-      console.log("dimen valid: " + data.dimen)
+      dispatch(uploadingEnded());
       dispatch(addImg(after, data, prevID, componentId));
       dispatch(closeImgSelectPage());
       return dispatch(clearImgInsertId());
-    })
+    }).catch((err) => {dispatch(uploadingEnded()); return false;})
   }
 }
 
@@ -138,7 +150,7 @@ export function deleteImage(imgid){
   return function(dispatch, getState){
     const pageid = getState().getIn(['data', 'pageid']);
 
-    return ajaxGetData(`/delete-image?pageid=${pageid}&imgid=${imgid}`).then(JSON.parse).then((res) => {
+    return ajaxGetData(`/codex/delete-image?pageid=${pageid}&imgid=${imgid}`).then(JSON.parse).then((res) => {
       if(res.status) dispatch(fetchImgsData());
       return res.status;
     })
@@ -147,14 +159,7 @@ export function deleteImage(imgid){
 
 export function uploadFile(file){
   return function(dispatch){
-
-    return uploadToS3(file).then((id)=>{console.log('valid!'); console.log(id)})
-
-    /*.then((url) => {
-      console.log(url);
-      return dispatch(setImg(url));
-    });*/
-
+    return uploadToS3(file);
   }
 }
 
@@ -216,11 +221,9 @@ export function deleteItemInFocus(){
   return function(dispatch, getState){
     let itemInFocus = getState().getIn(['app', 'focus']);
     if(!itemInFocus) return;
-    console.log('item in focus: ' + itemInFocus);
 
     let type = getState().getIn(['data', 'items', itemInFocus, 'type']);
     if(type === 'header'){
-      console.log(itemInFocus)
       dispatch(deleteHeading(itemInFocus));
       dispatch(computeHeadingLevels());
     }
@@ -308,7 +311,7 @@ export function saveTitle(){
 export function newPage(){
   return function(dispatch){
     let data = {title: "My New Adventure"};
-    ajaxSendData('/create', JSON.stringify(data)).then(() => console.log('OK!'));
+    ajaxSendData('/codex/create', JSON.stringify(data));
   }
 }
 
@@ -331,16 +334,12 @@ export function saveData(){
 
     dispatch(saveTitle());
     let data = getState().get('data').toJS();
-    console.log('packing data...');
-  //  console.log(data);
     dispatch(saving_START());
 
-    return ajaxSendData('/save', JSON.stringify(data)).then((res) => {
-      console.log("saved: " + res.status);
+    return ajaxSendData('/codex/save', JSON.stringify(data)).then((res) => {
       dispatch(saving_END());
       return true;
     }).catch((err) => {
-      console.log('caught error!');
       dispatch(saving_END());
       return false;
     });
@@ -362,9 +361,6 @@ export function publish(){
 }
 
 export function setPageData(data){
-  console.log('data:::');
-  console.log(data);
-
   if(data === null) return;
 
   return {
@@ -379,10 +375,8 @@ export function fetchImgsData(){
   return function(dispatch, getState){
     const pageid = getState().getIn(['data', 'pageid']);
 
-    return ajaxGetData('/pageimgs?pageid='+pageid).then((res) => {
-      console.log(res);
+    return ajaxGetData('/codex/pageimgs?pageid='+pageid).then((res) => {
       if(res && res.status && res.imgsData){
-        console.log(res.imgsData);
         return dispatch(setImgBank(res.imgsData));
       }
     })

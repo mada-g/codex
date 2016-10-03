@@ -3,17 +3,19 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var autoprefixer = require('autoprefixer');
 
+/*
+'webpack-dev-server/client?http://127.0.0.1:8080',
+'webpack/hot/only-dev-server',
+*/
+
+
 module.exports = {
 
   entry: {
     editor: [
-      'webpack-dev-server/client?http://127.0.0.1:8080',
-      'webpack/hot/only-dev-server',
       './client/editor'
     ],
     home: [
-      'webpack-dev-server/client?http://127.0.0.1:8080',
-      'webpack/hot/only-dev-server',
       './client/home'
     ]
   },
@@ -34,9 +36,12 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loader: ExtractTextPlugin.extract("style-loader", "css-loader!sass-loader")
+        loader: ExtractTextPlugin.extract("style-loader", "css-loader!postcss-loader!sass-loader")
       }
     ]
+  },
+  postcss: function(){
+    return [autoprefixer];
   },
   plugins: [
     new webpack.optimize.CommonsChunkPlugin('common.js'),
@@ -46,7 +51,7 @@ module.exports = {
         'NODE_ENV': JSON.stringify('production')
       }
     }),
-    new webpack.HotModuleReplacementPlugin(),
+    //new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
     new webpack.optimize.UglifyJsPlugin({
         compress: {
@@ -55,8 +60,8 @@ module.exports = {
       })
   ],
   //devtool: 'source-map',
-  //devtool: 'cheap-module-source-map',
-  devtool: 'eval',
+  devtool: 'cheap-module-source-map',
+  //devtool: 'eval',
   devServer: {
     contentBase: './public',
     hot: true,

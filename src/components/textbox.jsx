@@ -36,7 +36,6 @@ export default class TextBox extends React.Component{
 
   handleChange = (e) => {
     let txt = document.querySelector(`.${this.props.componentId} .textbox-content`);
-    console.log(txt.innerHTML);
   }
 
   componentDidMount(){

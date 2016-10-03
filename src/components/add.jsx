@@ -43,8 +43,8 @@ class Add extends React.Component{
 
 
   renderAddBars = () => {
-    let allTypes1 = ['text', 'heading', 'image'];
-    let allTypes2 = ['youtube', 'twitter', 'map', 'codepen'];
+    let allTypes1 = ['text', 'heading'];
+    let allTypes2 = ['image', 'youtube', 'codepen'];
 
     if(this.state.show){
       return <div className={`add-container ${this.props.after ? 'marginDown' : 'marginUp'}`}>

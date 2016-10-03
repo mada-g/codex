@@ -5,7 +5,7 @@ import {ajaxSendData, ajaxGetData} from '../../../shared/utils/ajaxUtils.js';
 export function createPage(){
   return function(dispatch){
     let data = {title: "My New Adventure"};
-    return ajaxSendData('/create', JSON.stringify(data));
+    return ajaxSendData('/codex/create', JSON.stringify(data));
   }
 }
 
@@ -17,16 +17,30 @@ export function removePageInfo(pageid){
   }
 }
 
+export function deletePageInProg(){
+  return {
+    type: "DELETE_PAGE_IN_PROG"
+  }
+}
+
+export function deletePageEnd(){
+  return {
+    type: "DELETE_PAGE_END"
+  }
+}
+
 export function deletePage(pageid){
   return function(dispatch, getState){
     let data = {pageid: pageid}
-    return ajaxGetData(`/delete-page?pageid=${pageid}`).then((res) => {
+    dispatch(deletePageInProg());
+    return ajaxGetData(`/codex/delete-page?pageid=${pageid}`).then((res) => {
+      dispatch(deletePageEnd());
       if(res.status){
-        console.log('OK!');
         return dispatch(removePageInfo(pageid));
       }
-
       return res;
+    }).catch((err) => {
+      return dispatch(deletePageEnd());
     });
   }
 }

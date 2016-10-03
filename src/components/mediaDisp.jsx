@@ -4,6 +4,11 @@ import MediaSelect from './mediaSelect.jsx';
 
 export default class MediaDisp extends React.Component{
 
+  isInFocus = (focus) => {
+    if(focus === this.props.componentId) return "inFocus";
+    else return "";
+  }
+
   extractIdFromUrl = (src, match) => {
     if(!src) return null;
     let index = src.indexOf(match);
@@ -32,7 +37,7 @@ export default class MediaDisp extends React.Component{
   }
 
   render(){
-    return <div className="mediaDisp" onClick={this.props.handleClick} onFocus={this.props.handleClick}>
+    return <div className={`mediaDisp ${this.isInFocus(this.props.focus)}`} onClick={this.props.handleClick} onFocus={this.props.handleClick}>
       {this.renderContent(this.props.options)}
     </div>
   }

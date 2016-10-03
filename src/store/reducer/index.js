@@ -134,8 +134,15 @@ export default function(state = INIT_STATE, action){
     }
 
     case 'SET_IMG_BANK': {
-      return state.setIn(['data', 'imgsData'], action.val)
+      return state.setIn(['data', 'imgsData'], action.val);
+    }
 
+    case 'UPLOADING_IN_PROG': {
+      return state.setIn(['app', 'uploading'], true);
+    }
+
+    case 'UPLOADING_ENDED': {
+      return state.setIn(['app', 'uploading'], false);
     }
 
     case 'OPEN_IMAGE_SELECT_PAGE': {

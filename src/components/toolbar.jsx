@@ -33,7 +33,10 @@ class Toolbar extends React.Component{
       this.props.saveData().then((res) => {
         $(`.btn-${label}`).removeClass('saving');
 
-        if(res) $(`.btn-${label}`).addClass('save-success');
+        if(res){
+          this.props.setLocalDataToken(false);
+          $(`.btn-${label}`).addClass('save-success');
+        }
         else $(`.btn-${label}`).addClass('save-fail');
       })
     }
@@ -49,19 +52,16 @@ class Toolbar extends React.Component{
     extractHtmlData(this.props.data.sections, this.props.saveItemContent);
     this.props.saveData().then((res) => {
       if(res){
-        let win = window.open(`/preview/${this.props.data.pageid}`);
+        let win = window.open(`/codex/preview/${this.props.data.pageid}`);
         if(win) win.focus();
-        else window.location = `/preview/${this.props.data.pageid}`;
+        else window.location = `/codex/preview/${this.props.data.pageid}`;
       }
     })
 
   }
 
   restoreLocalData = () => {
-    console.log('restoring...');
     this.props.setPageData(loadLocalData(this.props.data.pageid));
-
-    console.log("THE TITLE::::: " + this.props.data.items.title.content);
 
     deleteLocalData(this.props.data.pageid);
 
@@ -70,7 +70,6 @@ class Toolbar extends React.Component{
 
   localSave = () => {
     //this.props.localSave(this.props.data.sections);
-    console.log('local save...');
     extractHtmlData(this.props.data.sections, this.props.saveItemContent);
     this.props.localSave();
     //localDataSave(this.props.data.pageid, this.props.data);
@@ -78,7 +77,7 @@ class Toolbar extends React.Component{
 
   homeClick = () => {
     this.localSave();
-    window.location = "/editor";
+    window.location = "/codex/editor";
   }
 
   renderRestorePage = () => {
@@ -96,14 +95,12 @@ class Toolbar extends React.Component{
 
   changeAlign = (focus, val) => {
     return () => {
-      console.log(val);
       this.props.change_OPTION_alignment(focus, val);
     }
   }
 
   changeSize = (focus, val) => {
     return () => {
-      console.log("new size: "+ val);
       this.props.change_OPTION_size(focus, val);
     }
   }
@@ -134,7 +131,6 @@ class Toolbar extends React.Component{
   }
 
   renderHeadingSize = (focus, size) => {
-    console.log("size " + size);
     let sizes = [{label: 'I', src: null, selected: (size==="h0"), handleClick: this.changeSize(focus, "h0") },
                  {label: 'I.1', src: null, selected: (size==="h1"), handleClick: this.changeSize(focus, "h1") },
                  {label: 'I.1.ii', src: null, selected: (size==="h2"), handleClick: this.changeSize(focus, "h2") }];
@@ -142,20 +138,26 @@ class Toolbar extends React.Component{
     return <ToolboxText title="heading level" btns={sizes} btnStyle="heading-size-btn" />
   }
 
-  renderImgSize = (focus, size) => {
-    return <ToolboxImgSize focus={focus} imgResize={this.props.imgResize} size={size}/>
+  renderImgSize = (focus, size, label) => {
+    return <ToolboxImgSize focus={focus} imgResize={this.props.imgResize} size={size} label={label}/>
   }
 
   renderTextTools = (focus, options) => {
     return [
-      this.renderImgSize(focus, options.size),
+      this.renderImgSize(focus, options.size, "textbox width"),
+      this.renderAlignTools(focus, options.align)
+    ]
+  }
+
+  renderTitleTools = (focus, options) => {
+    return [
       this.renderAlignTools(focus, options.align)
     ]
   }
 
   renderImgTools = (focus, options) => {
     return [
-      this.renderImgSize(focus, options.size),
+      this.renderImgSize(focus, options.size, "image width"),
       this.renderAlignTools(focus, options.align)
     ]
   }
@@ -173,8 +175,11 @@ class Toolbar extends React.Component{
 
     let item = this.props.data.items[focus];
 
-    if(item.type === 'text' || item.type === 'title'){
+    if(item.type === 'text'){
       return this.renderTextTools(focus, item.options);
+    }
+    else if(item.type === 'title'){
+      return this.renderTitleTools(focus, item.options);
     }
     else if(item.type === 'img'){
       return this.renderImgTools(focus, item.options);

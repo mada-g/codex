@@ -22,7 +22,6 @@ import MediaDisp from './MediaDisp.jsx';
 
 import extractHtmlData from '../utils/extractHtmlData.js';
 import {localDataSave, loadLocalData} from '../utils/saveData.js';
-import fetchTweet from '../utils/fetchTweet.js';
 
 class App extends React.Component{
 
@@ -30,47 +29,24 @@ class App extends React.Component{
     super();
   }
 
-/*  shouldComponentUpdate = (nextProps, nextState) => {
-    console.log('localsaving ??? ' + nextProps.app.localsaving);
-
-    if(nextProps.app.localsaving) return false;
-    else return true;
-
-  }
-*/
   componentDidMount = () => {
 
     if(loadLocalData(this.props.data.pageid) !== null){
       this.props.setLocalDataToken(true);
     }
-
-
-  /*  setInterval(() => {
-      if(!this.props.app.hasLocalData){
-        this.props.setLocalSaving(true);
-
-        extractHtmlData(this.props.data.sections, this.props.saveItemContent);
-        this.props.localSave();
-        this.props.setLocalSaving(true);
-
-        console.log('?????????????????????????????????????????????????????????');
-
-      } else {
-        console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^');
-      }
-    }, 120000)*/
   }
 
   handleOnFocus = (id) => {
     return () => {
+      if(id === this.props.app.focus) return;
       this.props.focusOnItem(id);
       $(`.${id} .textbox-content`).focus();
     }
   }
 
-  renderMediaDisp = (id, options, label, match, baseUrl, handleSelect, handleClick) => {
+  renderMediaDisp = (id, options, label, match, baseUrl, focus, handleSelect, handleClick) => {
     return (elem) => {
-      return <MediaDisp componentId={id} options={options} label={label} match={match} baseUrl={baseUrl} handleSelect={handleSelect} handleClick={handleClick}>
+      return <MediaDisp componentId={id} options={options} focus={focus} label={label} match={match} baseUrl={baseUrl} handleSelect={handleSelect} handleClick={handleClick}>
         {elem}
       </MediaDisp>
     }
@@ -78,13 +54,11 @@ class App extends React.Component{
   }
 
   renderContent = () => {
-    //console.log(this.props.data.sections);
     return this.props.data.sections.map((id) => {
       const item = this.props.data.items[id];
       const type = item.type;
       let options = item.options;
       let content = item.content ? item.content : "\n";
-      //console.log(type);
       let focus = this.props.app.focus;
       let itemComp = null;
 
@@ -101,7 +75,7 @@ class App extends React.Component{
         itemComp = <Title componentId={id} options={options} txt={content} focus={focus} handleClick={this.handleOnFocus(id)} />
       }
       else if(type === "youtube"){
-        itemComp = this.renderMediaDisp(id, options, 'enter youtube link', "watch?v=", "https://www.youtube.com/embed", this.props.change_OPTION_src, this.handleOnFocus(id))
+        itemComp = this.renderMediaDisp(id, options, 'enter youtube link', "watch?v=", "https://www.youtube.com/embed", focus, this.props.change_OPTION_src, this.handleOnFocus(id))
         itemComp = itemComp(
           <div className={`media-box yt-box`}>
             <iframe className="media-elem" src={options.src}></iframe>
@@ -109,7 +83,7 @@ class App extends React.Component{
         )
       }
       else if(type === "codepen"){
-        itemComp = this.renderMediaDisp(id, options, "enter codepen link", "pen/", "http://codepen.io/chriscoyier/embed", this.props.change_OPTION_src, this.handleOnFocus(id))
+        itemComp = this.renderMediaDisp(id, options, "enter codepen link", "pen/", "http://codepen.io/chriscoyier/embed", focus, this.props.change_OPTION_src, this.handleOnFocus(id))
         itemComp = itemComp(
           <div className={`media-box codepen-box`}>
             <iframe className="media-elem" src={options.src}></iframe>
@@ -140,11 +114,28 @@ class App extends React.Component{
     this.props.saveData();
   }
 
+  renderIcons = () => {
+    let icons = ['alignleft_w', 'alignright_w', 'aligncenter_w',
+                'alignleft', 'alignright', 'aligncenter',
+                'close', 'plus', 'upload', 'eye', 'newspaper',
+                'closegw', 'backspace-arrow-red'];
+
+    return icons.map((ic) => {
+      return <img src={`/assets/icons/${ic}.png`} />
+    })
+  }
+
   render(){
     return <div>
+      <div className="icons-loader">
+        {this.renderIcons()}
+        <img src="/assets/icons/rolling.gif" />
+      </div>
+
       <Toolbar focusItem={this.props.app.focus}>
         <ToolboxText deleteItemInFocus={this.props.deleteItemInFocus}/>
       </Toolbar>
+
       <div className="app app-container rel">
         <br />
         <br />

@@ -25,6 +25,8 @@ export default {
     focus: null,
     after: 1,
 
+    uploading: false,
+
     saving: false,
     localsaving: false,
     localSaveInProg: false

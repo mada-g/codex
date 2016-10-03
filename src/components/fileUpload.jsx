@@ -12,6 +12,7 @@ export default class FileUpload extends React.Component{
   }
 
   handleUpload = () =>{
+    if(this.props.uploading) return;
     const fs = this.refs.fileInput.getDOMNode().files;
     const f = fs[0];
 
@@ -35,6 +36,7 @@ export default class FileUpload extends React.Component{
   }
 
   selectFile = ()=>{
+    if(this.props.uploading) return;
     this.refs.fileInput.getDOMNode().click();
   }
 
@@ -54,6 +56,7 @@ export default class FileUpload extends React.Component{
 
       {this.state.selectedFile ? this.renderUploadButton() : null}
 
+      {this.props.uploading ? <div className="upload-prog"><img src="/assets/icons/rolling.gif"/></div> : null}
 
     </div>
   }

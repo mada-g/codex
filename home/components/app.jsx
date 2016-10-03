@@ -22,21 +22,26 @@ class App extends React.Component{
     this.setState({visib: !this.state.visib});
     this.props.createPage().then((res) => {
       if(!res.status) return;
-      window.location = "/editor/" + res.pageid;
+      window.location = "/codex/editor/" + res.pageid;
     });
   }
 
   render(){
     return <div className="app">
+
+      <div className="icons-loader">
+        <img src="/assets/icons/rolling.gif" />
+      </div>
+
       <HeaderBar />
       <AddPage handleClick={this.handleAddPage}/>
 
       <div className={`allPages group ${this.state.visib ? 'visib' : 'no-visib'}`}>
         <div className="list left-list">
-          <PageList pages={this.props.data.drafts} title="drafts" side="left" deletePage={this.props.deletePage} removePageInfo={this.props.removePageInfo}/>
+          <PageList pages={this.props.data.drafts} title="drafts" side="left" deletingpage={this.props.app.deletingpage} deletePage={this.props.deletePage} removePageInfo={this.props.removePageInfo}/>
         </div>
         <div className="list right-list">
-          <PageList pages={this.props.data.published} title="published" side="right" deletePage={this.props.deletePage} removePageInfo={this.props.removePageInfo}/>
+          <PageList pages={this.props.data.published} title="published" side="right" deletingpage={this.props.app.deletingpage} deletePage={this.props.deletePage} removePageInfo={this.props.removePageInfo}/>
         </div>
       </div>
 
@@ -47,7 +52,8 @@ class App extends React.Component{
 
 function injectState(state){
   return {
-    data: state.get('data').toJS()
+    data: state.get('data').toJS(),
+    app: state.get('app').toJS()
   }
 }
 

@@ -4,8 +4,16 @@ const INIT_STATE = Map();
 
 export default function(state = INIT_STATE, action){
   switch (action.type) {
+
+    case 'DELETE_PAGE_IN_PROG': {
+      return state.setIn(['app', 'deletingpage'], true);
+    }
+
+    case 'DELETE_PAGE_END': {
+      return state.setIn(['app', 'deletingpage'], false);
+    }
+
     case 'REMOVE_PAGE_INFO': {
-      console.log(state);
       let pageType = null;
       let arr = null;
       let pageIndex = null;
@@ -24,7 +32,6 @@ export default function(state = INIT_STATE, action){
       if(!pageType) return state;
 
       else{
-        console.log('removing...');
         return state.updateIn(['data', pageType], val => val.delete(pageIndex))
       }
     }

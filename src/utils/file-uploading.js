@@ -9,7 +9,7 @@ function requestSignature(name, type, dimen, pageid){
       type: 'POST',
       dataType: 'json',
       contentType: 'application/json',
-      url: `/sign-s3`,
+      url: `/codex/sign-s3`,
       data: JSON.stringify({
         filename: name,
         filetype: type,
@@ -47,12 +47,9 @@ function sendFile(file, data){
 
 function confirmUpload(data, pageid){
   return new Promise((resolve, reject) => {
-    $.get(`/valid-upload?imgid=${data.imgid}&pageid=${pageid}`, (res) => {
+    $.get(`/codex/valid-upload?imgid=${data.imgid}&pageid=${pageid}`, (res) => {
       let parsedRes = JSON.parse(res);
-      console.log('++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
-      console.log(parsedRes);
-      console.log(data);
-      console.log('++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
+
       if(parsedRes['status'])
         resolve(data);
       else
@@ -63,7 +60,6 @@ function confirmUpload(data, pageid){
 
 
 export function uploadToS3(file, dimen, pageid){
-  console.log('uploading...');
   return requestSignature(file.name, file.type, dimen, pageid)
     //.then(response => {return JSON.parse(response)})
 //    .then((data) => {return sendFile(file, data.signedRequest, data.url, data.id)})

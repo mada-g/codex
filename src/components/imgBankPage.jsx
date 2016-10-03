@@ -40,7 +40,6 @@ class ImgBankPage extends React.Component{
     if(!this.state.selectedImg) return;
     let imgid = this.state.selectedImg.imgid;
     this.props.deleteImage(imgid).then((res) => {
-      console.log('res: ' + res);
       if(res) this.setState({selectedImg: null});
     })
   }
@@ -49,7 +48,7 @@ class ImgBankPage extends React.Component{
     return <div className="add-img">
         <div className="sect-title"><span>Add a new image</span></div>
         <div className="upload-area" onClick={this.clearImgFocus}>
-          <FileUpload uploadFile={this.props.uploadFile} selectImg={this.props.selectImg} prevID={this.props.app.imgInsertId} after={this.props.app.after} />
+          <FileUpload uploadFile={this.props.uploadFile} selectImg={this.props.selectImg} prevID={this.props.app.imgInsertId} after={this.props.app.after} uploading={this.props.app.uploading} />
         </div>
       </div>
   }

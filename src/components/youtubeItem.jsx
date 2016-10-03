@@ -27,7 +27,6 @@ export default class YoutubeItem extends React.Component{
   renderContent = (options) => {
 
     if(!options.src){
-      console.log("MEDIA SELECT")
       return <MediaSelect label="enter youtube link" handleSelect={this.handleSelect}/>
     }
     else{

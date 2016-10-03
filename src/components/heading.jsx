@@ -11,6 +11,13 @@ export default class Heading extends React.Component{
     $(`.${this.props.componentId} .textbox-content`).html(this.props.txt);
   }
 
+  componentDidUpdate(prevProps, prevState){
+    //this.setState({label: this.props.label});
+    if(prevProps.txt !== this.props.txt){
+      $(`.${this.props.componentId} .textbox-content`).html(this.props.txt);
+    }
+  }
+
   isInFocus = (focus) => {
     if(focus === this.props.componentId) return "inFocus";
     else return "";

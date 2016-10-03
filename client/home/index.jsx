@@ -16,9 +16,27 @@ import '../../home/scss/x_style_home.scss';
 
 let userData = window.__init_state;
 
-let initialState = userData ? fromJS({data: userData}) : fromJS(initState);
+let initialState = null;
+
+if(userData){
+  initialState = {
+    data: userData,
+    app: {
+      deletingpage: false
+    }
+  }
+} else {
+  initialState = initState;
+}
+
+initialState = fromJS(initialState);
+
+//let initialState = userData ? fromJS({data: userData}) : fromJS(initState);
 
 let store = applyMiddleware(thunkMiddleware)(createStore)(reducer, initialState);
+
+console.log('CODEX by Georges Madalinski');
+
 
 render(<Provider store={store}>
   <App/>

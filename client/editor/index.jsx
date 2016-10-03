@@ -28,14 +28,14 @@ if(pageContent){
       after: 1,
       saving: false,
       localsaving: false,
-      hasLocalData: false
+      hasLocalData: false,
+      uploading: false
     }
   }
 } else {
   initialState = initState;
 }
 
-console.log(initialState);
 initialState = fromJS(initialState);
 
 
@@ -43,14 +43,8 @@ initialState = fromJS(initialState);
 let store = applyMiddleware(thunkMiddleware)(createStore)(reducer, initialState);
 //let store = createStore(reducer, fromJS(initState));
 
+console.log('CODEX by Georges Madalinski');
 
-//console.log(store.getState().toJS());
-/*
-
-store.dispatch(actions.deleteContent(55))
-
-console.log(store.getState().toJS());
-*/
 
 render(<Provider store={store}>
   <App/>
