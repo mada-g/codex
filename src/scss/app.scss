@@ -23,10 +23,19 @@ div{
 
 .app-container{
   position: relative;
-  padding: 10px;
   box-sizing: border-box;
-  width: 66%;
+  width: 100%;
   margin: auto;
+}
+
+.item{
+  width: 100%;
+  position: relative;
+  .titlecomp, .section, .heading, .mediaDisp{
+    position: relative;
+    margin: auto;
+    width: 66%;
+  }
 }
 
 .border{

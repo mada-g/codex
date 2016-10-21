@@ -105,10 +105,10 @@ export default function(state = INIT_STATE, action){
     case 'ADD_IMG': {
       if(!action.url || !action.dimen) return state;
 
-      let _size = 100;
+      let _size = 66;
 
       if(action.dimen.width < action.dimen.height){
-        _size = Math.round(100*action.dimen.width/action.dimen.height);
+        _size = Math.round(66*action.dimen.width/action.dimen.height);
       }
 
       let newImg = Map({type: "img", src: action.url, content: null, imgid: action.imgid, options: Map({size: _size, align: 'aligncenter', width: action.dimen.width, height: action.dimen.height}) });

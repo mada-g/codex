@@ -11,6 +11,13 @@ export default class PageList extends React.Component{
     }
   }
 
+
+  viewClick = (_pageid) => {
+    return () =>{
+      window.location = "/codex/view/" + _pageid;
+    }
+  }
+
   reqDelete = () => {
     this.props.deletePage(this.state.pageFocusId).then(() => {
         this.setState({dialogue: false, pageFocusId: null, pageFocusTitle: null})
@@ -53,7 +60,7 @@ export default class PageList extends React.Component{
 
     return pages.map((p) => {
       return <div className="list-elem">
-        <a href={`/codex/editor/${p.pageid}`}>
+        <a className="editor-link" href={`/codex/editor/${p.pageid}`}>
           <div className="page-title">{p.title}</div>
           <div className="page-details">{p.details}</div>
         </a>
@@ -61,6 +68,9 @@ export default class PageList extends React.Component{
           <div className="delete-page-btn" onClick={this.handleDeletePage(p.pageid, p.title)}>
             <img src="/assets/icons/deletepage.png" />
           </div>
+
+          {(this.props.title === "published") ? <a className="view-page-btn" href={`/codex/view/${this.props.username}/${p.pageid}`}><img src="/assets/icons/eye.png" /></a> : null}
+
         </div>
       </div>
     })

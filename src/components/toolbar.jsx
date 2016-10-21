@@ -22,7 +22,7 @@ class Toolbar extends React.Component{
     }
   }
 
-  savePage = (label) => {
+  savePage = (label, _callback) => {
     return () => {
       extractHtmlData(this.props.data.sections, this.props.saveItemContent);
 
@@ -36,6 +36,7 @@ class Toolbar extends React.Component{
         if(res){
           this.props.setLocalDataToken(false);
           $(`.btn-${label}`).addClass('save-success');
+          if(_callback !== null) _callback();
         }
         else $(`.btn-${label}`).addClass('save-fail');
       })
@@ -44,7 +45,11 @@ class Toolbar extends React.Component{
 
   publishPage = () => {
     this.props.publish();
-    this.savePage('publish')();
+    this.savePage('publish', () => {
+        let win = window.open(`/codex/view/${this.props.data.username}/${this.props.data.pageid}`);
+        if(win) win.focus();
+        else window.location = `/codex/view/${this.props.data.username}/${this.props.data.pageid}`;
+    })();
   }
 
   previewPage = () => {
@@ -205,7 +210,7 @@ class Toolbar extends React.Component{
 
   renderPageTools = () => {
     return [
-      this.renderPageButton('save', 'upload.png', this.savePage('save')),
+      this.renderPageButton('save', 'upload.png', this.savePage('save', null)),
       this.renderPageButton('preview', 'eye.png', this.previewPage),
       this.renderPageButton('publish', 'newspaper.png', this.publishPage)
     ]

@@ -2,6 +2,7 @@
 
 export default {
   data: {
+    username: "user",
     pageid: "rkpMypz3",
     title: "New Page",
     sections : ['title', 'img'],

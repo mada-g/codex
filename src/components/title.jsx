@@ -11,7 +11,7 @@ export default class Title extends React.Component{
   }
 
   render(){
-    return <div className="title" onClick={this.props.handleClick} onFocus={this.props.handleClick}>
+    return <div className="titlecomp" onClick={this.props.handleClick} onFocus={this.props.handleClick}>
       <div className={`container ${this.isInFocus(this.props.focus)}`}>
         <TextBox size="hx" componentId={this.props.componentId} txt={this.props.txt} alignment={this.props.options.align}/>
       </div>

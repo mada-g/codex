@@ -59,7 +59,7 @@
     &:hover .page-title {color: white;}
   }
 
-  .list-elem a{
+  .list-elem .editor-link{
     cursor: pointer;
     display: inline-block;
     padding: 5px;
@@ -109,6 +109,20 @@
   }
 }
 
+
+.view-page-btn{
+  background-color: green;
+  display: inline-block;
+  margin-left: 10px;
+  padding: 0;
+
+  img{
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+  }
+
+}
 
 .deleteDialogue{
   position: fixed;

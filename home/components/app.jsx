@@ -33,15 +33,16 @@ class App extends React.Component{
         <img src="/assets/icons/rolling.gif" />
       </div>
 
-      <HeaderBar />
-      <AddPage handleClick={this.handleAddPage}/>
+      <HeaderBar username={this.props.data.username} />
+
+      <AddPage handleClick={this.handleAddPage} username={this.props.data.username}/>
 
       <div className={`allPages group ${this.state.visib ? 'visib' : 'no-visib'}`}>
         <div className="list left-list">
-          <PageList pages={this.props.data.drafts} title="drafts" side="left" deletingpage={this.props.app.deletingpage} deletePage={this.props.deletePage} removePageInfo={this.props.removePageInfo}/>
+          <PageList pages={this.props.data.drafts} username={this.props.data.username} title="drafts" side="left" deletingpage={this.props.app.deletingpage} deletePage={this.props.deletePage} removePageInfo={this.props.removePageInfo}/>
         </div>
         <div className="list right-list">
-          <PageList pages={this.props.data.published} title="published" side="right" deletingpage={this.props.app.deletingpage} deletePage={this.props.deletePage} removePageInfo={this.props.removePageInfo}/>
+          <PageList pages={this.props.data.published} username={this.props.data.username} title="published" side="right" deletingpage={this.props.app.deletingpage} deletePage={this.props.deletePage} removePageInfo={this.props.removePageInfo}/>
         </div>
       </div>
 

@@ -1,30 +1,42 @@
 import React from 'react';
 import $ from 'jquery';
-/*
+
 export default class TextBox extends React.Component{
 
   componentDidMount(){
-    let txt = document.querySelector(`.${this.props.componentId} textarea`);
+    let txtarea = document.querySelector(`.${this.props.componentId} textarea`);
     let clone = document.querySelector(`.${this.props.componentId} span`);
 
-    clone.textContent = txt.value;
+    txtarea.value = this.props.txt;
 
-    txt.addEventListener('input', function(){
-      clone.textContent = txt.value;
+    clone.textContent = txtarea.value;
+
+    txtarea.addEventListener('input', function(){
+      clone.textContent = txtarea.value;
     })
   }
 
+  componentDidUpdate(prevProps, prevState){
+    //this.setState({label: this.props.label});
+    if(prevProps.txt !== this.props.txt){
+
+      let txtarea = document.querySelector(`.${this.props.componentId} textarea`);
+      let clone = document.querySelector(`.${this.props.componentId} span`);
+
+      txtarea.value = this.props.txt;
+      clone.textContent = txtarea.value;
+    }
+  }
+
   render(){
-    return <div className={`${this.props.componentId} textbox`}>
-      <div className={`box ${this.props.size}`}>
-        <pre><span></span><br/></pre>
+    return <div className={`${this.props.componentId} ${this.props.size} ${this.props.alignment} textbox`}>
+        <pre><span className="textbox-content"></span><br/></pre>
         <textarea />
-      </div>
     </div>
   }
-}*/
+}
 
-
+/*
 export default class TextBox extends React.Component{
 
   constructor(){
@@ -57,3 +69,4 @@ export default class TextBox extends React.Component{
     </div>
   }
 }
+*/

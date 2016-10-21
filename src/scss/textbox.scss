@@ -2,8 +2,6 @@
 //  border-top: 1px solid grey;
   //border-bottom: 1px solid grey;
     //background-color: lightgrey;
-
-  .box{
     position: relative;
 
     pre, textarea{
@@ -41,34 +39,22 @@
       visibility: hidden;
     }
 
-    &.h1{
-      pre, textarea{
-        font-size: 38px;
-        font-weight: bold;
-      }
-    }
-
-    &.h2{
-      pre, textarea{
-        font-size: 25px;
-        font-weight: bold;
-      }
-    }
-
-    &.h0{
-      pre, textarea{
-        font-size: 45px;
-        font-weight: bold;
-      }
-    }
-
-    &.t0{
-      pre, textarea{ font-size: 18px; }
-    }
-  }
 
 }
 
+.textbox{
+  &.alignleft { pre,textarea {text-align: left;} }
+  &.aligncenter { pre,textarea {text-align: center;} }
+  &.alignright { pre,textarea {text-align: right;} }
+
+  &.t0{ pre,textarea {font-size: 18px;} }
+
+  &.hx{ pre,textarea {font-size: 48px;} }
+
+  &.h0{ pre,textarea {font-size: 35px;} }
+  &.h1{ pre,textarea {font-size: 30px;} }
+  &.h2{ pre,textarea {font-size: 25px;} }
+}
 
 .textbox-area{
   //display: inline-block;
